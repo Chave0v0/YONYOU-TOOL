@@ -4,7 +4,7 @@
 
 学习用友 ActionHandlerServlet 反序列化过程时一时兴起，顺手写一款利用工具记录学习。
 
-本项目参考 **wafinfo** 项目代码，项目地址：https://github.com/wafinfo/NCTOOls。
+本项目参考 **wafinfo** 项目代码，项目地址：https://github.com/wafinfo/NCTOOls
 
 ## 免责声明
 
