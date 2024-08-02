@@ -4,31 +4,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HttpProxy {
-    private boolean isProxy = false;
-    private String httpProxy;
-    private String httpProxyHost;
-    private String httpProxyPort;
+    public static boolean IS_PROXY = false;
+    public static String PROXY_HOST = "127.0.0.1";
+    public static String PROXY_PORT = "8080";
 
-    public HttpProxy() {
-        isProxy = false;
-    }
-
-    public HttpProxy(String httpProxy) throws MalformedURLException {
-        isProxy = true;
-        URL proxy_url = new URL(httpProxy);
-        this.httpProxyHost = proxy_url.getHost();
-        this.httpProxyPort = String.valueOf(proxy_url.getPort());
-    }
-
-    public String getHttpProxyHost() {
-        return this.httpProxyHost;
-    }
-
-    public String getHttpProxyPort() {
-        return this.httpProxyPort;
-    }
-
-    public boolean isProxy() {
-        return isProxy;
+    public static void setProxy() {
+        if (HttpProxy.IS_PROXY == true) {
+            System.setProperty("http.proxyHost", HttpProxy.PROXY_HOST);
+            System.setProperty("http.proxyPort", HttpProxy.PROXY_PORT);
+            System.setProperty("https.proxyHost", HttpProxy.PROXY_HOST);
+            System.setProperty("https.proxyPort", HttpProxy.PROXY_PORT);
+        }
     }
 }
