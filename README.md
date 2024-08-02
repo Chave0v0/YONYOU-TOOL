@@ -29,7 +29,7 @@ java -jar YONYOU-TOOL-[version].jar
 
 目前实现功能模块：漏洞探测、一键getshell、命令执行、文件上传。
 
-![image-20240803011214957](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803011214957.png)
+![image-20240803011214957](assets/image-20240803011214957.png)
 
 ### 漏洞探测
 
@@ -37,7 +37,7 @@ java -jar YONYOU-TOOL-[version].jar
 
 选择漏洞，填写必要信息，点击探测，可自行在 dnslog 平台查看结果。
 
-![image-20240803011544819](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803011544819.png)
+![image-20240803011544819](assets/image-20240803011544819.png)
 
 ### 一键getshell
 
@@ -73,15 +73,15 @@ pass
 
 选择漏洞，输入目标url，点击 getshell。
 
-![image-20240803012708205](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803012708205.png)
+![image-20240803012708205](assets/image-20240803012708205.png)
 
 根据连接信息连接利用即可。
 
-![image-20240803013644223](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803013644223.png)
+![image-20240803013644223](assets/image-20240803013644223.png)
 
-![image-20240803013249129](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803013249129.png)
+![image-20240803013249129](assets/image-20240803013249129.png)
 
-![image-20240803013956646](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803013956646.png)
+![image-20240803013956646](assets/image-20240803013956646.png)
 
 ### 命令执行
 
@@ -89,7 +89,7 @@ pass
 
 进入 **命令执行** 模块，输入命令，点击执行即可，目前该漏洞已支持 **CC6** 与 **freemarker.template.utility.Execute** 两种命令执行。
 
-![image-20240803012445202](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803012445202.png)
+![image-20240803012445202](assets/image-20240803012445202.png)
 
 ### 文件上传
 
@@ -97,9 +97,9 @@ pass
 
 选择漏洞，进入文件上传模块，输入文件名，文件内容，点击上传即可。
 
-![image-20240803014217507](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803014217507.png)
+![image-20240803014217507](assets/image-20240803014217507.png)
 
-![image-20240803014246830](/Users/chave/GitHubRepository/YONYOU-TOOL/assets/image-20240803014246830.png)
+![image-20240803014246830](assets/image-20240803014246830.png)
 
 ## 更新记录
 
