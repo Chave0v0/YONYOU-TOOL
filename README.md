@@ -15,6 +15,7 @@
 ```
 ActionHandlerServlet 反序列化 (ActionHandlerServlet)
 Lfw_Core_Rpc 文件上传 (Lfw_Core_Rpc_Upload)
+BshServlet RCE (BshServlet_RCE)
 ```
 
 后续根据学习进度佛系更新完善poc。
@@ -39,9 +40,9 @@ java -jar YONYOU-TOOL-[version].jar
 
 ![image-20240803011544819](assets/image-20240803011544819.png)
 
-### 一键getshell
+### 一键 getshell
 
-支持一键 getshell。目前 getshell 方式均以打入内存马方式实现，同时注入回显、冰蝎、哥斯拉。
+本工具一键 getshell 功能打入的 webshell 同时打入回显、冰蝎、哥斯拉。请求头与连接密码信息均为下方所示。
 
 ```
 Filter 内存马连接地址：http://x.x.x.x/...网站目录.../*
@@ -114,6 +115,11 @@ pass
 - 新增命令执行回显模块。
 - 新增文件上传模块。
 - 支持漏洞 **Lfw_Core_Rpc 文件上传** 探测利用。
+
+### 20240804
+
+- 新增设置超时时间功能。
+- 支持漏洞 BshServlet RCE 探测利用。
 
 ## 最后
 

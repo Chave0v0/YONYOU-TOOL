@@ -1,5 +1,7 @@
 package com.chave.utils;
 
+import com.chave.bean.Config;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,5 +48,10 @@ public class HttpUtil {
 
     public static int getResponseCode(HttpURLConnection conn) throws IOException {
         return conn.getResponseCode();
+    }
+
+    public static void setTimeout(HttpURLConnection conn) {
+        conn.setConnectTimeout(Config.TIMEOUT);
+        conn.setReadTimeout(Config.TIMEOUT);
     }
 }

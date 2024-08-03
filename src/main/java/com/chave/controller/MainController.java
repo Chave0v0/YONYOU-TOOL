@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 
 public class MainController {
     @FXML
@@ -62,24 +63,33 @@ public class MainController {
     @FXML
     Button uploadButton;
 
+    @FXML
+    TextField timeoutField;
 
     @FXML
     public void initialize() {
+        HashMap map = new HashMap();
+        map.put("ActionHandlerServlet 反序列化", "ActionHandlerServlet");
+        map.put("lfw_core_rpc 文件上传", "Lfw_Core_Rpc_Upload");
+        map.put("BshServlet RCE", "BshServlet_RCE");
+
         // 初始化 ChoiceBox 的选项
         vulnChoiceBox.setItems(FXCollections.observableArrayList(
-                "ActionHandlerServlet",
-                "Lfw_Core_Rpc_Upload"
+                "ActionHandlerServlet 反序列化",
+                "lfw_core_rpc 文件上传",
+                "BshServlet RCE"
         ));
 
         // 初始化提示内容
         dnslogField.setPromptText("xxxxx.dnslog.cn 等");
         jndiField.setPromptText("ldap://1.1.1.1:1389/abc");
         targetField.setPromptText("http://1.1.1.1:8080/");
+        timeoutField.setText(String.valueOf(Config.TIMEOUT / 1000));
 
 
         // ChoiceBox 添加选择项改变监听器
         vulnChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            Config.VULN = (String) newValue;
+            Config.VULN = (String) map.get(newValue);
 
             // 判断是否支持dnslog探测 jndi利用
             try {
@@ -141,6 +151,11 @@ public class MainController {
         // 修改dnslog配置
         dnslogField.textProperty().addListener((observable, oldValue, newValue) -> {
             Config.DNSLOG = newValue;
+        });
+
+        // 设置超时时间
+        timeoutField.textProperty().addListener((observable, oldValue, newValue) -> {
+            Config.TIMEOUT = Integer.valueOf(newValue) * 1000;
         });
 
         // 修改cmd配置
