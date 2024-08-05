@@ -75,8 +75,8 @@
         <TextField fx:id="dnslogField" layoutX="98.0" layoutY="128.0" prefHeight="27.0" prefWidth="180.0" AnchorPane.leftAnchor="98.0" />
         <ChoiceBox fx:id="vulnChoiceBox" layoutX="98.0" layoutY="59.0" prefHeight="27.0" prefWidth="180.0" AnchorPane.leftAnchor="98.0" />
         <Label layoutX="38.0" layoutY="64.0" text="选择漏洞" />
-        <Button fx:id="poc" layoutX="580.0" layoutY="128.0" mnemonicParsing="false" onAction="#poc" prefWidth="70.0" text="探测" />
-        <Button fx:id="exp" layoutX="688.0" layoutY="128.0" mnemonicParsing="false" onAction="#exp" prefWidth="70.0" text="getshell" />
+        <Button fx:id="pocButton" layoutX="580.0" layoutY="128.0" mnemonicParsing="false" onAction="#poc" prefWidth="70.0" text="探测" />
+        <Button fx:id="expButton" layoutX="688.0" layoutY="128.0" mnemonicParsing="false" onAction="#exp" prefWidth="70.0" text="getshell" />
         <Label layoutX="324.0" layoutY="133.0" text="JNDI" />
         <TextField fx:id="jndiField" layoutX="360.0" layoutY="128.0" prefHeight="27.0" prefWidth="180.0" AnchorPane.leftAnchor="360.0" />
         <Label layoutX="312.0" layoutY="64.0" text="目标url" />

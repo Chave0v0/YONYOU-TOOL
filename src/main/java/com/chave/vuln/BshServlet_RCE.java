@@ -18,12 +18,13 @@ public class BshServlet_RCE extends VulnBase {
     public static boolean JNDI = false;
     public static boolean EXEC = true;
     public static boolean UPLOAD = true;
+    public static boolean GETSHELL = true;
 
+    public BshServlet_RCE() {
+    }
 
-    public BshServlet_RCE(TextArea log, TextArea execLog, TextArea uploadLog) {
-        this.log = log;
-        this.execLog = execLog;
-        this.uploadLog = uploadLog;
+    public BshServlet_RCE(TextArea log, TextArea uploadLog, TextArea execLog) {
+        super(log, uploadLog, execLog);
     }
 
     @Override

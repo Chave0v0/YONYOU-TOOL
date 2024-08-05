@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
@@ -32,9 +33,6 @@ public class MainController {
 
     @FXML
     TextField targetField;
-
-    @FXML
-    Button poc;
 
     @FXML
     TextArea log;
@@ -67,37 +65,59 @@ public class MainController {
     TextField timeoutField;
 
     @FXML
-    public void initialize() {
-        HashMap map = new HashMap();
+    Button expButton;
+
+    // 用于存放漏洞对应类
+    HashMap map = new HashMap();
+
+    {
+        map.put("ALL", "All");
         map.put("ActionHandlerServlet 反序列化", "ActionHandlerServlet");
         map.put("lfw_core_rpc 文件上传", "Lfw_Core_Rpc_Upload");
         map.put("BshServlet RCE", "BshServlet_RCE");
+    }
 
+    @FXML
+    public void initialize() {
         // 初始化 ChoiceBox 的选项
         vulnChoiceBox.setItems(FXCollections.observableArrayList(
+                "ALL",
                 "ActionHandlerServlet 反序列化",
                 "lfw_core_rpc 文件上传",
                 "BshServlet RCE"
         ));
 
-        // 初始化提示内容
+        // 默认选择ALL 关闭探测外所有功能
+        expButton.setDisable(true);
+        jndiField.setDisable(true);
+        jndiField.setStyle("-fx-background-color: lightgrey");
+        uploadTab.setDisable(true);
+        execTab.setDisable(true);
+
+        // 初始化相关内容
         dnslogField.setPromptText("xxxxx.dnslog.cn 等");
-        jndiField.setPromptText("ldap://1.1.1.1:1389/abc");
         targetField.setPromptText("http://1.1.1.1:8080/");
         timeoutField.setText(String.valueOf(Config.TIMEOUT / 1000));
-
+        vulnChoiceBox.setValue("ALL");
+        Config.VULN = "All";
 
         // ChoiceBox 添加选择项改变监听器
         vulnChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             Config.VULN = (String) map.get(newValue);
 
-            // 判断是否支持dnslog探测 jndi利用
+            // 判断是否支持dnslog探测 jndi利用 getshell
             try {
                 Class<?> vulnClass = Class.forName("com.chave.vuln." + Config.VULN);
+                Object vuln = vulnClass.newInstance();
                 Field dnslog_support_Field = vulnClass.getDeclaredField("DNSLOG");
                 Field jndi_support_Field = vulnClass.getDeclaredField("JNDI");
                 Field upload_support_Field = vulnClass.getDeclaredField("UPLOAD");
                 Field exec_support_Field = vulnClass.getDeclaredField("EXEC");
+                Field exp_support_Field = vulnClass.getDeclaredField("GETSHELL");
+
+                // 启动程序时默认为null 关闭探测外所有功能
+                expButton.setDisable(!(boolean) exp_support_Field.get(vuln));
+
                 // 是否支持dnslog
                 if (dnslog_support_Field.get(null).equals(false)) {
                     dnslogField.setEditable(false);
@@ -205,7 +225,7 @@ public class MainController {
     }
 
     private void checkTargetURL() {
-        if (Config.TARGET.trim().endsWith("/")) {
+        if (Config.TARGET != null && !Config.TARGET.trim().isEmpty() && Config.TARGET.trim().endsWith("/")) {
             Config.TARGET = Config.TARGET.substring(0, Config.TARGET.length() - 1);
         }
     }

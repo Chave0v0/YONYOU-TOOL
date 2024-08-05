@@ -20,13 +20,16 @@ public class ActionHandlerServlet extends VulnBase {
     public static boolean JNDI = false;
     public static boolean EXEC = true;
     public static boolean UPLOAD = false;
+    public static boolean GETSHELL = true;
 
     private String flag = "yyds";
 
+    public ActionHandlerServlet() {
+        super();
+    }
+
     public ActionHandlerServlet(TextArea log, TextArea execLog, TextArea uploadLog) {
-        this.log = log;
-        this.execLog = execLog;
-        this.uploadLog = uploadLog;
+        super(log, execLog, uploadLog);
     }
 
     @Override
@@ -86,9 +89,9 @@ public class ActionHandlerServlet extends VulnBase {
             // 处理响应
             int responseCode = HttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                logMessage("[+] 请求成功. 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
+                logMessage("[+] ActionHandlerServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
             } else {
-                logMessage("[-] 请求失败. 状态码: " + responseCode);
+                logMessage("[-] ActionHandlerServlet 反序列化探测失败. 状态码: " + responseCode);
             }
 
             urldns_conn.disconnect();
