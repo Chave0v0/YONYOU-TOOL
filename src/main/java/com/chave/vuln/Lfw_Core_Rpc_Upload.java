@@ -73,9 +73,6 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
             // 获取响应吗 声明响应体
             int responseCode1 = HttpUtil.getResponseCode(conn1);
 
-            // 获取响应内容
-            String response = HttpUtil.getResponseText(conn1);
-
 
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
                 // 检测上传文件是否存在
@@ -116,9 +113,9 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
             conn1.disconnect();
         } catch (Exception e) {
             if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
-                logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞.");
+                logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞. " + e);
             } else if (Config.MOD.equals("upload")) {
-                logUpload("[-] 文件上传失败, 请手动验证漏洞.");
+                logUpload("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞. " + e);
             }
         }
 

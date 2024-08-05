@@ -3,6 +3,8 @@ package com.chave.vuln;
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
+import java.io.IOException;
+
 public abstract class VulnBase {
     public TextArea log;
     public TextArea uploadLog;
@@ -35,5 +37,5 @@ public abstract class VulnBase {
         }
     }
 
-    public abstract void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException;
+    public abstract void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException, IOException;
 }

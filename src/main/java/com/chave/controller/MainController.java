@@ -16,6 +16,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 public class MainController {
@@ -75,6 +77,7 @@ public class MainController {
         map.put("ActionHandlerServlet 反序列化", "ActionHandlerServlet");
         map.put("lfw_core_rpc 文件上传", "Lfw_Core_Rpc_Upload");
         map.put("BshServlet RCE", "BshServlet_RCE");
+        map.put("jsinvoke 文件上传", "Jsinvoke_Upload");
     }
 
     @FXML
@@ -84,7 +87,8 @@ public class MainController {
                 "ALL",
                 "ActionHandlerServlet 反序列化",
                 "lfw_core_rpc 文件上传",
-                "BshServlet RCE"
+                "BshServlet RCE",
+                "jsinvoke 文件上传"
         ));
 
         // 默认选择ALL 关闭探测外所有功能
@@ -197,36 +201,37 @@ public class MainController {
     }
 
     @FXML
-    private void poc() {
+    private void poc() throws MalformedURLException {
         Config.MOD = "poc";
         checkTargetURL();
         exploit();
     }
 
     @FXML
-    private void exp() {
+    private void exp() throws MalformedURLException {
         Config.MOD = "exp";
         checkTargetURL();
         exploit();
     }
 
     @FXML
-    private void exec() {
+    private void exec() throws MalformedURLException {
         Config.MOD = "exec";
         checkTargetURL();
         exploit();
     }
 
     @FXML
-    private void fileUpload() {
+    private void fileUpload() throws MalformedURLException {
         Config.MOD = "upload";
         checkTargetURL();
         exploit();
     }
 
-    private void checkTargetURL() {
+    private void checkTargetURL() throws MalformedURLException {
         if (Config.TARGET != null && !Config.TARGET.trim().isEmpty() && Config.TARGET.trim().endsWith("/")) {
-            Config.TARGET = Config.TARGET.substring(0, Config.TARGET.length() - 1);
+            URL url = new URL(Config.TARGET);
+            Config.TARGET = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
         }
     }
 
@@ -234,7 +239,7 @@ public class MainController {
         try {
             Class<?> vulnClass = Class.forName("com.chave.vuln." + Config.VULN);
             Method exploitMethod = VulnBase.class.getMethod("exploit");
-            exploitMethod.invoke(vulnClass.getDeclaredConstructor(TextArea.class, TextArea.class, TextArea.class).newInstance(log, execLog, uploadLog));
+            exploitMethod.invoke(vulnClass.getDeclaredConstructor(TextArea.class, TextArea.class, TextArea.class).newInstance(log, uploadLog, execLog));
         } catch (Exception e) {
             e.printStackTrace();
         }

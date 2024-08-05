@@ -13,9 +13,10 @@
 ## 支持漏洞
 
 ```
-ActionHandlerServlet 反序列化 (ActionHandlerServlet)
-Lfw_Core_Rpc 文件上传 (Lfw_Core_Rpc_Upload)
-BshServlet RCE (BshServlet_RCE)
+ActionHandlerServlet 反序列化
+Lfw_Core_Rpc 文件上传
+BshServlet RCE
+jsinvoke 文件上传
 ```
 
 后续根据学习进度佛系更新完善poc。
@@ -124,6 +125,7 @@ pass
 ### 20240805
 
 - 新增一键探测所有漏洞功能。
+- 支持漏洞 **jsinvoke 文件上传** 探测利用。
 
 ## 最后
 

