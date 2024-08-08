@@ -63,7 +63,7 @@ public class ActionHandlerServlet extends VulnBase {
             ByteArrayOutputStream urldns_baos = new ByteArrayOutputStream();
             GZIPOutputStream urldns_gzipOS = new GZIPOutputStream(urldns_baos);
 
-            urldns_gzipOS.write(Util.getSerializedData(URLDNS.getObject(Config.DNSLOG)));
+            urldns_gzipOS.write(Util.getSerializedData(URLDNS.getObject("ActionHandlerServlet." + Config.DNSLOG)));
 
             urldns_gzipOS.close(); // 关闭流
 

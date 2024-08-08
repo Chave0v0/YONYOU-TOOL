@@ -78,6 +78,7 @@ public class MainController {
         map.put("lfw_core_rpc 文件上传", "Lfw_Core_Rpc_Upload");
         map.put("BshServlet RCE", "BshServlet_RCE");
         map.put("jsinvoke 文件上传", "Jsinvoke_Upload");
+        map.put("accept.jsp 文件上传", "Accept_Upload");
     }
 
     @FXML
@@ -88,7 +89,8 @@ public class MainController {
                 "ActionHandlerServlet 反序列化",
                 "lfw_core_rpc 文件上传",
                 "BshServlet RCE",
-                "jsinvoke 文件上传"
+                "jsinvoke 文件上传",
+                "accept.jsp 文件上传"
         ));
 
         // 默认选择ALL 关闭探测外所有功能
@@ -229,9 +231,12 @@ public class MainController {
     }
 
     private void checkTargetURL() throws MalformedURLException {
-        if (Config.TARGET != null && !Config.TARGET.trim().isEmpty() && Config.TARGET.trim().endsWith("/")) {
-            URL url = new URL(Config.TARGET);
-            Config.TARGET = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
+        URL url = new URL(Config.TARGET);
+        int port = url.getPort();
+        if (port == -1) {
+            Config.TARGET = url.getProtocol() + "://" + url.getHost();
+        } else {
+            Config.TARGET = url.getProtocol() + "://" + url.getHost() + ":" + port;
         }
     }
 
