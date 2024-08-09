@@ -94,28 +94,39 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
                 if (responseCode2 == HttpURLConnection.HTTP_OK) {
                     if (response2.contains(flag) && Config.MOD.equals("poc")) {
                         logMessage("[+] Lfw_Core_Rpc 文件上传漏洞存在! 成功上传测试文件: " + fileUrl);
+                        return;
                     } else if (response2.contains(flag) && Config.MOD.equals("exp")) {
                         logMessage("[+] Filter 类型内存马注入成功, 请手动连接验证.");
+                        return;
                     } else if (Config.MOD.equals("upload")) {
                         logUpload("[+] 文件上传成功! 文件地址: " + fileUrl);
+                        return;
                     }
                 } else {
                     if (Config.MOD.equals("poc")) {
                         logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请尝试手动验证漏洞.");
+                        return;
                     } else if (Config.MOD.equals("exp")) {
                         logMessage("[-] 内存马注入失败, 请手动验证漏洞.");
+                        return;
                     } else if (Config.MOD.equals("upload")) {
                         logUpload("[-] 文件上传失败, 请手动验证漏洞.");
+                        return;
                     }
                 }
 
+            } else {
+                logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请尝试手动验证漏洞.");
+                return;
             }
             conn1.disconnect();
         } catch (Exception e) {
             if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
                 logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞. " + e);
+                return;
             } else if (Config.MOD.equals("upload")) {
                 logUpload("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞. " + e);
+                return;
             }
         }
 

