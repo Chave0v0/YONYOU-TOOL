@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="YONYOU-TOOL" target="1.8" />
+      <module name="YONYOU-TOOL" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
