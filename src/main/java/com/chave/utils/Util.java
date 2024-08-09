@@ -59,4 +59,16 @@ public class Util {
     public static byte[] base64ToByteCode(String base64String) {
         return Base64.getDecoder().decode(base64String);
     }
+
+    public static String fullyURLEncode(String input) throws UnsupportedEncodingException {
+        StringBuilder encodedString = new StringBuilder();
+
+        // Iterate over each character in the input string
+        for (char ch : input.toCharArray()) {
+            // Encode each character to its %XX format
+            encodedString.append(String.format("%%%02X", (int) ch));
+        }
+
+        return encodedString.toString();
+    }
 }

