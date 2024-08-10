@@ -71,4 +71,13 @@ public class Util {
 
         return encodedString.toString();
     }
+
+    public static String unicodeEncode(String input) {
+        StringBuilder unicodeBuilder = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            unicodeBuilder.append("\\u");
+            unicodeBuilder.append(String.format("%04x", (int) c));
+        }
+        return unicodeBuilder.toString();
+    }
 }
