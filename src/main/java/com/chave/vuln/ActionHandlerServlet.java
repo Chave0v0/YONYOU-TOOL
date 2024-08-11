@@ -28,8 +28,8 @@ public class ActionHandlerServlet extends VulnBase {
         super();
     }
 
-    public ActionHandlerServlet(TextArea log, TextArea execLog, TextArea uploadLog) {
-        super(log, execLog, uploadLog);
+    public ActionHandlerServlet(TextArea log, TextArea uploadLog, TextArea execLog) {
+        super(log, uploadLog, execLog);
     }
 
     @Override
