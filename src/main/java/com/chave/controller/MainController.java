@@ -80,6 +80,7 @@ public class MainController {
         map.put("jsinvoke 文件上传", "Jsinvoke_Upload");
         map.put("accept.jsp 文件上传", "Accept_Upload");
         map.put("DeleteServlet 反序列化", "DeleteServlet");
+        map.put("MxServlet 反序列化", "MxServlet");
     }
 
     @FXML
@@ -92,7 +93,8 @@ public class MainController {
                 "BshServlet RCE",
                 "jsinvoke 文件上传",
                 "accept.jsp 文件上传",
-                "DeleteServlet 反序列化"
+                "DeleteServlet 反序列化",
+                "MxServlet 反序列化"
         ));
 
         // 默认选择ALL 关闭探测外所有功能
