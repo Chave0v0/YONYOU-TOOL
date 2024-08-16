@@ -18,7 +18,7 @@ public class Main extends Application {
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
-        stage.setTitle("YONYOU-TOOL v2.0.5");
+        stage.setTitle("YONYOU-TOOL v2.0.6");
         stage.setWidth(810);
         stage.setHeight(600);
         stage.setResizable(false);
