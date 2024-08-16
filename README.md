@@ -19,6 +19,17 @@ BshServlet RCE
 jsinvoke 文件上传
 accept.jsp 文件上传
 DeleteServlet 反序列化
+MxServlet 反序列化
+DownloadServlet 反序列化
+FileReceiveServlet 反序列化
+Fs_Update_DownloadServlet 反序列化
+MonitorServlet 反序列化
+UploadServlet 反序列化
+NCMessageServlet 反序列化
+XbrlPersistenceServlet 反序列化
+ECFileManageServlet 反序列化
+ModelHandleServlet 反序列化
+ResourceManager 反序列化
 ```
 
 ## 使用说明
@@ -149,6 +160,22 @@ pass
 ### 20240814
 
 - 支持 **DeleteServlet 反序列化** 漏洞探测利用。
+
+### 20240817
+
+- 支持以下漏洞探测利用：
+  - **MxServlet 反序列化**
+  - **DownloadServlet 反序列化**
+  - **FileReceiveServlet 反序列化**
+  - **Fs_Update_DownloadServlet 反序列化**
+  - **MonitorServlet 反序列化**
+  - **UploadServlet 反序列化**
+  - **NCMessageServlet 反序列化**
+  - **XbrlPersistenceServlet 反序列化**
+  - **ECFileManageServlet 反序列化**
+  - **ModelHandleServlet 反序列化**
+  - **ResourceManager 反序列化**
+- 优化部分功能。
 
 ## 最后
 

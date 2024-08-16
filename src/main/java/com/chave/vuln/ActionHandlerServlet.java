@@ -60,6 +60,11 @@ public class ActionHandlerServlet extends VulnBase {
 
     private void poc(String url) {
         try {
+            if (Config.DNSLOG == null) {
+                logMessage("[-] 请输入 dnslog 信息.");
+                return;
+            }
+
             ByteArrayOutputStream urldns_baos = new ByteArrayOutputStream();
             GZIPOutputStream urldns_gzipOS = new GZIPOutputStream(urldns_baos);
 

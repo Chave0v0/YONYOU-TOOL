@@ -81,6 +81,16 @@ public class MainController {
         map.put("accept.jsp 文件上传", "Accept_Upload");
         map.put("DeleteServlet 反序列化", "DeleteServlet");
         map.put("MxServlet 反序列化", "MxServlet");
+        map.put("DownloadServlet 反序列化", "DownloadServlet");
+        map.put("FileReceiveServlet 反序列化", "FileReceiveServlet");
+        map.put("Fs_Update_DownloadServlet 反序列化", "Fs_Update_DownloadServlet");
+        map.put("MonitorServlet 反序列化", "MonitorServlet");
+        map.put("UploadServlet 反序列化", "UploadServlet");
+        map.put("NCMessageServlet 反序列化", "NCMessageServlet");
+        map.put("XbrlPersistenceServlet 反序列化", "XbrlPersistenceServlet");
+        map.put("ECFileManageServlet 反序列化", "ECFileManageServlet");
+        map.put("ModelHandleServlet 反序列化", "ModelHandleServlet");
+        map.put("ResourceManager 反序列化", "ResourceManager");
     }
 
     @FXML
@@ -94,7 +104,17 @@ public class MainController {
                 "jsinvoke 文件上传",
                 "accept.jsp 文件上传",
                 "DeleteServlet 反序列化",
-                "MxServlet 反序列化"
+                "MxServlet 反序列化",
+                "DownloadServlet 反序列化",
+                "FileReceiveServlet 反序列化",
+                "Fs_Update_DownloadServlet 反序列化",
+                "MonitorServlet 反序列化",
+                "UploadServlet 反序列化",
+                "NCMessageServlet 反序列化",
+                "XbrlPersistenceServlet 反序列化",
+                "ECFileManageServlet 反序列化",
+                "ModelHandleServlet 反序列化",
+                "ResourceManager 反序列化"
         ));
 
         // 默认选择ALL 关闭探测外所有功能
@@ -177,12 +197,12 @@ public class MainController {
 
         // 修改target配置
         targetField.textProperty().addListener((observable, oldValue, newValue) -> {
-            Config.TARGET = newValue;
+            Config.TARGET = newValue.trim();
         });
 
         // 修改dnslog配置
         dnslogField.textProperty().addListener((observable, oldValue, newValue) -> {
-            Config.DNSLOG = newValue;
+            Config.DNSLOG = newValue.trim();
         });
 
         // 设置超时时间
@@ -192,17 +212,17 @@ public class MainController {
 
         // 修改cmd配置
         cmdField.textProperty().addListener((observable, oldValue, newValue) -> {
-            Config.CMD = newValue;
+            Config.CMD = newValue.trim();
         });
 
         // 修改上传文件名配置
         fileNameField.textProperty().addListener((observable, oldValue, newValue) -> {
-            Config.FILENAME = newValue;
+            Config.FILENAME = newValue.trim();
         });
 
         // 获取上传文件内容
         fileTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-            Config.FILETEXT = newValue;
+            Config.FILETEXT = newValue.trim();
         });
 
 
