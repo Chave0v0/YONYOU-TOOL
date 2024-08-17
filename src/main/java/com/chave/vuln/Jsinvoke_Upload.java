@@ -126,9 +126,6 @@ public class Jsinvoke_Upload extends VulnBase {
             if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
                 logMessage("[-] jsinvoke 文件上传失败, 请尝试手动验证." + e);
             }
-//            else {
-//                logUpload("[-] jsinvoke 文件上传失败, 请尝试手动验证." + e);
-//            }
         }
     }
 

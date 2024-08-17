@@ -30,6 +30,7 @@ XbrlPersistenceServlet 反序列化
 ECFileManageServlet 反序列化
 ModelHandleServlet 反序列化
 ResourceManager 反序列化
+GroupTemplet 文件上传
 ```
 
 ## 使用说明
@@ -175,7 +176,8 @@ pass
   - **ECFileManageServlet 反序列化**
   - **ModelHandleServlet 反序列化**
   - **ResourceManager 反序列化**
-- 优化部分功能。
+  - **GroupTemplet 文件上传**
+- 优化部分处理逻辑。
 
 ## 最后
 

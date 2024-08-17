@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.zip.GZIPOutputStream;
 
-public class ActionHandlerServlet extends VulnBase {
+public class ActionHandlerServlet_Unserialize extends VulnBase {
     public static boolean DNSLOG = true;
     public static boolean JNDI = false;
     public static boolean EXEC = true;
@@ -24,11 +24,11 @@ public class ActionHandlerServlet extends VulnBase {
 
     private String flag = "yyds";
 
-    public ActionHandlerServlet() {
+    public ActionHandlerServlet_Unserialize() {
         super();
     }
 
-    public ActionHandlerServlet(TextArea log, TextArea uploadLog, TextArea execLog) {
+    public ActionHandlerServlet_Unserialize(TextArea log, TextArea uploadLog, TextArea execLog) {
         super(log, uploadLog, execLog);
     }
 
