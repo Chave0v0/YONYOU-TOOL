@@ -31,6 +31,7 @@ ECFileManageServlet 反序列化
 ModelHandleServlet 反序列化
 ResourceManager 反序列化
 GroupTemplet 文件上传
+LfwFileUploadServlet 文件上传
 ```
 
 ## 使用说明
@@ -114,70 +115,6 @@ pass
 ![image-20240803014217507](assets/image-20240803014217507.png)
 
 ![image-20240803014246830](assets/image-20240803014246830.png)
-
-## 更新记录
-
-### 20240724
-
-- v1.0 版本发布，命令行工具版本。
-- 支持 **ActionServletHandler 反序列化** 漏洞探测利用。
-
-### 20240803
-
-- v2.0 版本发布，实现图形化。
-- 新增命令执行回显模块。
-- 新增文件上传模块。
-- 支持 **Lfw_Core_Rpc 文件上传** 漏洞探测利用。
-
-### 20240804
-
-- 新增设置超时时间功能。
-- 支持 **BshServlet RCE** 漏洞探测利用。
-
-### 20240805
-
-- 新增一键探测所有漏洞功能。
-- 支持 **jsinvoke 文件上传** 漏洞探测利用。
-- 修复 bug。
-
-### 20240809
-
-- v2.0.3-beta 版本，修复部分 bug，剩余 bug 将在 v2.0.3 正式版本完成修复。
-- 支持 **accept.jsp 文件上传** 漏洞探测利用。
-
-### 20240810
-
-- 修复 **accept.jsp 文件上传** 部分站点无法一键 getshell 问题，已做适当免杀处理。
-- 修复 **accept.jsp 文件上传** 文件上传功能日志信息显示位置错误问题。
-- 修复 **BshServlet RCE** 文件上传功能编码问题。
-- 修复 **Lfw_Core_Rpc 文件上传** 文件上传功能编码问题。
-- 修复目标 URL **存在空格**、**无端口号**、**输入带路径 URL** 时处理异常问题。
-
-### 20240811
-
-- 支持 **jsinvoke 文件上传** 命令执行功能。
-- 修复 **jsinvoke 文件上传** 无法一键 getshell 问题。
-
-### 20240814
-
-- 支持 **DeleteServlet 反序列化** 漏洞探测利用。
-
-### 20240817
-
-- 支持以下漏洞探测利用：
-  - **MxServlet 反序列化**
-  - **DownloadServlet 反序列化**
-  - **FileReceiveServlet 反序列化**
-  - **Fs_Update_DownloadServlet 反序列化**
-  - **MonitorServlet 反序列化**
-  - **UploadServlet 反序列化**
-  - **NCMessageServlet 反序列化**
-  - **XbrlPersistenceServlet 反序列化**
-  - **ECFileManageServlet 反序列化**
-  - **ModelHandleServlet 反序列化**
-  - **ResourceManager 反序列化**
-  - **GroupTemplet 文件上传**
-- 优化部分处理逻辑。
 
 ## 最后
 

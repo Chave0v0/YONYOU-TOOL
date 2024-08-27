@@ -141,42 +141,50 @@ public class Accept_Upload extends VulnBase {
 
                 if (responseCode2 == HttpURLConnection.HTTP_OK && responseText2.contains(pocFlag) && Config.MOD.equals("poc")) {
                     logMessage("[+] accept.jsp 文件上传漏洞存在, 成功上传测试文件: " + fileUrl);
+                    file.delete();
                     return;
                 } else if ((responseCode2 != HttpURLConnection.HTTP_OK || !responseText2.contains(pocFlag)) && Config.MOD.equals("poc")) {
                     logMessage("[-] accept.jsp 文件上传漏洞不存在, 请尝试手动探测.");
+                    file.delete();
                     return;
                 } else if (responseCode2 == HttpURLConnection.HTTP_OK && responseText2.contains(expFlag) && Config.MOD.equals("exp")) {
                     logMessage("[+] 文件上传成功! 同时写入回显/冰蝎/哥斯拉, 连接地址: " + fileUrl + "\n[+] 请求头与连接密码见 README.md.");
+                    file.delete();
                     return;
                 } else if ((responseCode2 != HttpURLConnection.HTTP_OK || !responseText2.contains(expFlag)) && Config.MOD.equals("exp")) {
                     logMessage("[-] 文件上传失败, 请尝试手动利用.");
+                    file.delete();
                     return;
                 } else if (responseCode2 == HttpURLConnection.HTTP_OK && Config.MOD.equals("upload")) {
                     logUpload("[+] 文件上传成功! 文件地址: " + fileUrl);
+                    file.delete();
                     return;
                 } else if (responseCode2 != HttpURLConnection.HTTP_OK && Config.MOD.equals("upload")) {
                     logUpload("[-] 文件上传失败, 请尝试手动利用. 状态码: " + responseCode2);
+                    file.delete();
                     return;
                 }
             } else {
                 if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
                     logMessage("[-] accept.jsp 文件上传漏洞不存在.");
+                    file.delete();
                     return;
                 } else if (Config.MOD.equals("upload")) {
                     logUpload("[-] accept.jsp 文件上传漏洞不存在.");
+                    file.delete();
+                    return;
                 }
             }
         } catch (Exception e) {
             if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
                 logMessage("[-] accept.jsp 文件上传失败. " + e);
+                file.delete();
                 return;
             } else if (Config.MOD.equals("upload")) {
                 logUpload("[-] accept.jsp 文件上传失败. " + e);
+                file.delete();
                 return;
             }
-        } finally {
-            // 删除临时文件
-            file.delete();
         }
     }
 }
