@@ -9,7 +9,7 @@ import java.util.Base64;
 public class Util {
     public static String DEFAULT_PATH = "./";
 
-    public static void serialize(Object obj, String... serPath) throws IOException {
+    public static void createSerializeFile(Object obj, String... serPath) throws IOException {
         String targetFilePath = DEFAULT_PATH + "ser.bin";
         if (serPath.length != 0) {
             targetFilePath = serPath[0];
@@ -25,7 +25,7 @@ public class Util {
         return bos.toByteArray();
     }
 
-    public static Object unserialize(String... serFilePath) throws IOException, ClassNotFoundException {
+    public static Object unserializeFromFile(String... serFilePath) throws IOException, ClassNotFoundException {
         String targetFilePath = DEFAULT_PATH + "ser.bin";
         if (serFilePath.length != 0) {
             targetFilePath = serFilePath[0];
@@ -79,5 +79,16 @@ public class Util {
             unicodeBuilder.append(String.format("%04x", (int) c));
         }
         return unicodeBuilder.toString();
+    }
+
+    public static byte[] byteArrayMerger(byte[] bt1, byte[] bt2) {
+        if (bt2 == null) {
+            return bt1;
+        } else {
+            byte[] bt3 = new byte[bt1.length + bt2.length];
+            System.arraycopy(bt1, 0, bt3, 0, bt1.length);
+            System.arraycopy(bt2, 0, bt3, bt1.length, bt2.length);
+            return bt3;
+        }
     }
 }

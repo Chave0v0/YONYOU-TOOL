@@ -1,6 +1,6 @@
 package com.chave.controller;
 
-import com.chave.bean.Config;
+import com.chave.config.Config;
 import com.chave.vuln.VulnBase;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -12,9 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -90,7 +88,7 @@ public class MainController {
         map.put("XbrlPersistenceServlet 反序列化", "XbrlPersistenceServlet_Unserialize");
         map.put("ECFileManageServlet 反序列化", "ECFileManageServlet_Unserialize");
         map.put("ModelHandleServlet 反序列化", "ModelHandleServlet_Unserialize");
-        map.put("ResourceManager 反序列化", "ResourceManager_Unserialize");
+        map.put("ResourceManagerServlet 文件上传", "ResourceManagerServlet_Upload");
         map.put("GroupTemplet 文件上传", "GroupTemplet_Upload");
         map.put("LfwFileUploadServlet 文件上传", "LfwFileUploadServlet_Upload");
     }
@@ -116,7 +114,7 @@ public class MainController {
                 "XbrlPersistenceServlet 反序列化",
                 "ECFileManageServlet 反序列化",
                 "ModelHandleServlet 反序列化",
-                "ResourceManager 反序列化",
+                "ResourceManagerServlet 文件上传",
                 "GroupTemplet 文件上传",
                 "LfwFileUploadServlet 文件上传"
         ));

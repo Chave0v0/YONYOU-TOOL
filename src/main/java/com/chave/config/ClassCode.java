@@ -1,6 +1,4 @@
-package com.chave.bean;
-
-import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+package com.chave.config;
 
 public class ClassCode {
 

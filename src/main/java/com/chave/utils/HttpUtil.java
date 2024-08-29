@@ -1,6 +1,6 @@
 package com.chave.utils;
 
-import com.chave.bean.Config;
+import com.chave.config.Config;
 
 import java.io.BufferedReader;
 import java.io.IOException;

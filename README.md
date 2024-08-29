@@ -29,7 +29,7 @@ NCMessageServlet 反序列化
 XbrlPersistenceServlet 反序列化
 ECFileManageServlet 反序列化
 ModelHandleServlet 反序列化
-ResourceManager 反序列化
+ResourceManagerServlet 文件上传
 GroupTemplet 文件上传
 LfwFileUploadServlet 文件上传
 ```
@@ -52,11 +52,15 @@ java -jar YONYOU-TOOL-[version].jar
 
 选择漏洞，填写必要信息，点击探测，可自行在 dnslog 平台查看结果。
 
+**经测试，部分站点反序列化漏洞状态码 404、500 均有 dnslog，建议以 dnslog 平台记录为准。**
+
 ![image-20240803011544819](assets/image-20240803011544819.png)
 
 ### 一键 getshell
 
 本工具一键 getshell 功能打入的 webshell 同时打入回显、冰蝎、哥斯拉。请求头与连接密码信息均为下方所示。
+
+**反序列化漏洞打入内存马情况以实际连接情况为准。**
 
 ```
 Filter 内存马连接地址：http://x.x.x.x/...网站目录.../*

@@ -1,4 +1,4 @@
-package com.chave.bean;
+package com.chave.config;
 
 public class ClassName {
     public static String TomcatFilterMemshellFromThread = "TomcatFilterMemshellFromThread";

@@ -1,10 +1,10 @@
 package com.chave.vuln;
 
-import com.chave.bean.Config;
+import com.chave.config.Config;
+import com.chave.config.Mod;
 import com.chave.proxy.HttpProxy;
 import com.chave.utils.HttpUtil;
 import com.chave.utils.SSLUtil;
-import com.chave.utils.Util;
 import javafx.scene.control.TextArea;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -34,7 +34,7 @@ public class BshServlet_RCE extends VulnBase {
 
         try {
             // 调用对应方法
-            if (Config.MOD.equals("poc")) {
+            if (Config.MOD.equals(Mod.POC)) {
                 if (poc(vulnerable_url, "win")) {
                     logMessage("[+] BshServlet RCE 漏洞存在!");
                 } else {
@@ -45,9 +45,9 @@ public class BshServlet_RCE extends VulnBase {
                         logMessage("[-] BshServlet RCE 漏洞不存在. 请尝试手动利用.");
                     }
                 }
-            } else if (Config.MOD.equals("exp")) {
+            } else if (Config.MOD.equals(Mod.EXP)) {
                 exp(vulnerable_url);
-            } else if (Config.MOD.equals("exec")) {
+            } else if (Config.MOD.equals(Mod.EXEC)) {
                 if (!exec(vulnerable_url, "win")) {
                     exec(vulnerable_url, "linux");
                 }

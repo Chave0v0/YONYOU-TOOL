@@ -1,6 +1,6 @@
 package com.chave.vuln;
 
-import com.chave.bean.Config;
+import com.chave.config.Config;
 import com.chave.thread.MyThread;
 import javafx.scene.control.TextArea;
 
