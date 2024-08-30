@@ -80,7 +80,7 @@ public class MainController {
         map.put("DeleteServlet 反序列化", "DeleteServlet_Unserialize");
         map.put("MxServlet 反序列化", "MxServlet_Unserialize");
         map.put("DownloadServlet 反序列化", "DownloadServlet_Unserialize");
-        map.put("FileReceiveServlet 反序列化", "FileReceiveServlet_Unserialize");
+        map.put("FileReceiveServlet 文件上传", "FileReceiveServlet_Upload");
         map.put("Fs_Update_DownloadServlet 反序列化", "Fs_Update_DownloadServlet_Unserialize");
         map.put("MonitorServlet 反序列化", "MonitorServlet_Unserialize");
         map.put("UploadServlet 反序列化", "UploadServlet_Unserialize");
@@ -106,7 +106,7 @@ public class MainController {
                 "DeleteServlet 反序列化",
                 "MxServlet 反序列化",
                 "DownloadServlet 反序列化",
-                "FileReceiveServlet 反序列化",
+                "FileReceiveServlet 文件上传",
                 "Fs_Update_DownloadServlet 反序列化",
                 "MonitorServlet 反序列化",
                 "UploadServlet 反序列化",
