@@ -21,7 +21,7 @@ accept.jsp 文件上传
 DeleteServlet 反序列化
 MxServlet 反序列化
 DownloadServlet 反序列化
-FileReceiveServlet 反序列化
+FileReceiveServlet 文件上传
 Fs_Update_DownloadServlet 反序列化
 MonitorServlet 反序列化
 UploadServlet 反序列化
