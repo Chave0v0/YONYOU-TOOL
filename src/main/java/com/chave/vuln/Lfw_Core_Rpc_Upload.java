@@ -3,7 +3,7 @@ package com.chave.vuln;
 import com.chave.config.Config;
 import com.chave.config.Mod;
 import com.chave.proxy.HttpProxy;
-import com.chave.utils.HttpUtil;
+import com.chave.utils.MyHttpUtil;
 import com.chave.utils.SSLUtil;
 import com.chave.utils.Util;
 import javafx.scene.control.TextArea;
@@ -69,13 +69,13 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
             conn1.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             // 设置超时
-            HttpUtil.setTimeout(conn1);
+            MyHttpUtil.setTimeout(conn1);
 
             byte[] input = postData.getBytes("UTF-8");
-            HttpUtil.post(conn1, input);
+            MyHttpUtil.post(conn1, input);
 
             // 获取响应吗 声明响应体
-            int responseCode1 = HttpUtil.getResponseCode(conn1);
+            int responseCode1 = MyHttpUtil.getResponseCode(conn1);
 
 
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
@@ -84,16 +84,16 @@ public class Lfw_Core_Rpc_Upload extends VulnBase {
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
                 // 设置超时
-                HttpUtil.setTimeout(conn2);
+                MyHttpUtil.setTimeout(conn2);
 
                 // get请求
-                HttpUtil.get(conn2);
+                MyHttpUtil.get(conn2);
 
                 // 获取响应代码
-                int responseCode2 = HttpUtil.getResponseCode(conn2);
+                int responseCode2 = MyHttpUtil.getResponseCode(conn2);
 
                 // 获取响应内容
-                String response2 = HttpUtil.getResponseText(conn2);
+                String response2 = MyHttpUtil.getResponseText(conn2);
 
                 if (responseCode2 == HttpURLConnection.HTTP_OK) {
                     if (response2.contains(flag) && Config.MOD.equals(Mod.POC)) {

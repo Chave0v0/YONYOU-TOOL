@@ -3,7 +3,7 @@ package com.chave.vuln;
 import com.chave.config.Config;
 import com.chave.config.Mod;
 import com.chave.proxy.HttpProxy;
-import com.chave.utils.HttpUtil;
+import com.chave.utils.MyHttpUtil;
 import com.chave.utils.SSLUtil;
 import javafx.scene.control.TextArea;
 import org.apache.http.HttpEntity;
@@ -140,24 +140,24 @@ public class LfwFileUploadServlet_Upload extends VulnBase {
                     HttpProxy.setProxy();
 
                     // 设置超时
-                    HttpUtil.setTimeout(conn2);
+                    MyHttpUtil.setTimeout(conn2);
 
                     // get请求
-                    HttpUtil.get(conn2);
+                    MyHttpUtil.get(conn2);
 
                     int responseCode2;
                     String responseText2;
 
                     try {
                         // 获取响应代码 响应内容
-                        responseCode2 = HttpUtil.getResponseCode(conn2);
+                        responseCode2 = MyHttpUtil.getResponseCode(conn2);
                     } catch (Exception e) {
                         continue;
                     }
 
 
                     if (responseCode2 == HttpURLConnection.HTTP_OK) {
-                        responseText2 = HttpUtil.getResponseText(conn2);
+                        responseText2 = MyHttpUtil.getResponseText(conn2);
                         if (responseText2.contains(pocFlag) && Config.MOD.equals(Mod.POC)) {
                             logMessage("[+] LfwFileUploadServlet 文件上传漏洞存在! 成功上传测试文件: " + fileUrl);
                             file.delete();

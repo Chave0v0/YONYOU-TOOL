@@ -91,6 +91,7 @@ public class MainController {
         map.put("ResourceManagerServlet 文件上传", "ResourceManagerServlet_Upload");
         map.put("GroupTemplet 文件上传", "GroupTemplet_Upload");
         map.put("LfwFileUploadServlet 文件上传", "LfwFileUploadServlet_Upload");
+        map.put("IMsgCenterWebService JNDI注入", "IMsgCenterWebService_JNDI");
     }
 
     @FXML
@@ -116,7 +117,8 @@ public class MainController {
                 "ModelHandleServlet 反序列化",
                 "ResourceManagerServlet 文件上传",
                 "GroupTemplet 文件上传",
-                "LfwFileUploadServlet 文件上传"
+                "LfwFileUploadServlet 文件上传",
+                "IMsgCenterWebService JNDI注入"
         ));
 
         // 默认选择ALL 关闭探测外所有功能
@@ -170,16 +172,22 @@ public class MainController {
                 }
                 // 是否支持jndi
                 if (jndi_support_Field.get(null).equals(false)) {
+                    jndiField.setDisable(true);
                     jndiField.setEditable(false);
                     jndiField.setStyle("-fx-background-color: lightgrey");
                     // 设置提示文本
                     jndiField.setPromptText("");
                     dnslogField.setText("");
                 } else {
+                    if (Config.JNDI != null) {
+                        jndiField.setText(Config.JNDI);
+                    } else {
+                        // 设置提示文本
+                        jndiField.setPromptText("ldap://1.1.1.1:1389/abc");
+                    }
+                    jndiField.setDisable(false);
                     jndiField.setEditable(true);
                     jndiField.setStyle("-fx-background-color: white");
-                    // 设置提示文本
-                    jndiField.setPromptText("ldap://1.1.1.1:1389/abc");
                 }
                 // 是否支持文件上传
                 if (upload_support_Field.get(null).equals(false)) {
@@ -208,6 +216,11 @@ public class MainController {
         // 修改dnslog配置
         dnslogField.textProperty().addListener((observable, oldValue, newValue) -> {
             Config.DNSLOG = newValue.trim();
+        });
+
+        // 修改jndi配置
+        jndiField.textProperty().addListener((observable, oldValue, newValue) -> {
+            Config.JNDI = newValue.trim();
         });
 
         // 设置超时时间

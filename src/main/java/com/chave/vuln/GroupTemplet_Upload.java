@@ -3,7 +3,7 @@ package com.chave.vuln;
 import com.chave.config.Config;
 import com.chave.config.Mod;
 import com.chave.proxy.HttpProxy;
-import com.chave.utils.HttpUtil;
+import com.chave.utils.MyHttpUtil;
 import com.chave.utils.SSLUtil;
 import javafx.scene.control.TextArea;
 import org.apache.http.HttpEntity;
@@ -116,18 +116,18 @@ public class GroupTemplet_Upload extends VulnBase {
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
                 // 设置超时
-                HttpUtil.setTimeout(conn2);
+                MyHttpUtil.setTimeout(conn2);
 
                 // get请求
-                HttpUtil.get(conn2);
+                MyHttpUtil.get(conn2);
 
                 // 获取响应代码 响应内容
-                int responseCode2 = HttpUtil.getResponseCode(conn2);
+                int responseCode2 = MyHttpUtil.getResponseCode(conn2);
                 String responseText2;
 
                 if (responseCode2 == HttpURLConnection.HTTP_OK) {
                     // 获取响应内容
-                    responseText2 = HttpUtil.getResponseText(conn2);
+                    responseText2 = MyHttpUtil.getResponseText(conn2);
                 } else {
                     // 如果响应不是200 直接默认文件上传失败
                     responseText2 = "";

