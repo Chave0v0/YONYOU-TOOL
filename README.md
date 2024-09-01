@@ -32,6 +32,8 @@ ModelHandleServlet 反序列化
 ResourceManagerServlet 文件上传
 GroupTemplet 文件上传
 LfwFileUploadServlet 文件上传
+IMsgCenterWebService JNDI注入
+uploadChunk 文件上传
 ```
 
 ## 使用说明
