@@ -93,6 +93,7 @@ public class MainController {
         map.put("LfwFileUploadServlet 文件上传", "LfwFileUploadServlet_Upload");
         map.put("IMsgCenterWebService JNDI注入", "IMsgCenterWebService_JNDI");
         map.put("uploadChunk 文件上传", "UploadChunk_Upload");
+        map.put("billitem 文件上传", "Billitem_Upload");
     }
 
     @FXML
@@ -120,7 +121,8 @@ public class MainController {
                 "GroupTemplet 文件上传",
                 "LfwFileUploadServlet 文件上传",
                 "IMsgCenterWebService JNDI注入",
-                "uploadChunk 文件上传"
+                "uploadChunk 文件上传",
+                "billitem 文件上传"
         ));
 
         // 默认选择ALL 关闭探测外所有功能

@@ -1,4 +1,4 @@
-package com.chave.gadget.sink;
+package com.chave.gadget.factory;
 
 import com.chave.utils.Util;
 import org.apache.commons.collections.Transformer;

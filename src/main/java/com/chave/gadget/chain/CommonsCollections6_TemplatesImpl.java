@@ -1,10 +1,7 @@
 package com.chave.gadget.chain;
 
-import com.chave.gadget.sink.TransformerArrayFactory;
 import com.chave.utils.Util;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.collections.functors.ChainedTransformer;
 import org.apache.commons.collections.functors.InvokerTransformer;
 import org.apache.commons.collections.keyvalue.TiedMapEntry;
 import org.apache.commons.collections.map.LazyMap;

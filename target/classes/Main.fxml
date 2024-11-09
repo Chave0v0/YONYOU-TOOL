@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextArea?>
+<AnchorPane maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="600.0"
+            prefWidth="810.0"
+            xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.chave.controller.MainController">
+    <children>
+        <MenuBar prefHeight="0.0" prefWidth="569.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="设置">
+                    <items>
+                        <MenuItem fx:id="proxy" mnemonicParsing="false" onAction="#setProxy" text="代理" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <TabPane layoutX="3.0" layoutY="194.0" prefHeight="322.0" prefWidth="811.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="194.0">
+            <tabs>
+                <Tab text="日志">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextArea fx:id="log" layoutX="5.0" layoutY="6.0" prefHeight="283.0" prefWidth="801.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="execTab" text="命令执行">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextArea fx:id="execLog" layoutX="5.0" layoutY="53.0" prefHeight="289.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="54.0" />
+                                <Label layoutX="11.0" layoutY="18.0" text="命令" />
+                                <Button layoutX="729.0" layoutY="13.0" mnemonicParsing="false" onAction="#exec" prefWidth="60.0" text="执行" />
+                                <TextField fx:id="cmdField" layoutX="48.0" layoutY="13.0" prefHeight="27.0" prefWidth="666.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="uploadTab" text="文件上传">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextArea fx:id="fileTextArea" layoutX="5.0" layoutY="76.0" prefHeight="102.0" prefWidth="794.0" />
+                                <TextField fx:id="fileNameField" layoutX="64.0" layoutY="14.0" prefHeight="27.0" prefWidth="650.0" />
+                                <Label layoutX="14.0" layoutY="18.0" text="文件名" />
+                                <Button fx:id="uploadButton" layoutX="729.0" layoutY="14.0" mnemonicParsing="false" onAction="#fileUpload" prefWidth="60.0" text="上传" />
+                                <Label layoutX="14.0" layoutY="51.0" text="文件内容" />
+                                <Label layoutX="14.0" layoutY="186.0" text="上传结果" />
+                                <TextArea fx:id="uploadLog" layoutX="5.0" layoutY="210.0" prefHeight="102.0" prefWidth="794.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Label layoutX="747.0" layoutY="526.0" text="By Chave" textAlignment="CENTER" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="17.0" />
+        <Label layoutX="53.0" layoutY="133.0" text="dnslog" />
+        <TextField fx:id="dnslogField" layoutX="98.0" layoutY="128.0" prefHeight="27.0" prefWidth="180.0" AnchorPane.leftAnchor="98.0" />
+        <ChoiceBox fx:id="vulnChoiceBox" layoutX="98.0" layoutY="59.0" prefHeight="27.0" prefWidth="180.0" AnchorPane.leftAnchor="98.0" />
+        <Label layoutX="38.0" layoutY="64.0" text="选择漏洞" />
+        <Button fx:id="pocButton" layoutX="580.0" layoutY="128.0" mnemonicParsing="false" onAction="#poc" prefWidth="70.0" text="探测" />
+        <Button fx:id="expButton" layoutX="688.0" layoutY="128.0" mnemonicParsing="false" onAction="#exp" prefWidth="70.0" text="getshell" />
+        <Label layoutX="324.0" layoutY="133.0" text="JNDI" />
+        <TextField fx:id="jndiField" layoutX="360.0" layoutY="128.0" prefHeight="27.0" prefWidth="180.0" AnchorPane.leftAnchor="360.0" />
+        <Label layoutX="312.0" layoutY="64.0" text="目标url" />
+        <TextField fx:id="targetField" layoutX="360.0" layoutY="59.0" prefHeight="27.0" prefWidth="180.0" />
+        <Label layoutX="580.0" layoutY="64.0" text="超时时间" />
+        <TextField fx:id="timeoutField" layoutX="639.0" layoutY="59.0" prefHeight="27.0" prefWidth="37.0" />
+        <Label layoutX="678.0" layoutY="64.0" text="s" />
+    </children>
+</AnchorPane>
+
